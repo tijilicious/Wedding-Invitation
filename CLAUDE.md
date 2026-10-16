@@ -1,34 +1,27 @@
 # Tijil & Arpita — wedding invitation website
 
-Wedding: Wednesday 2 December 2026 (Tijil Shandilya & Arpita Sharma).
+Live: https://tijilicious.github.io/Wedding-Invitation/ (GitHub Pages, branch `claude/website-github-repo-8pfcqb`, root). Wedding: Wednesday 2 December 2026, Golden Stone Resort, Aligarh. Invitation is from the groom's side.
 
 ## What this is
-A single-page, reel-style invitation (`index.html`) with media in `media/`. No build step, no framework: open `index.html` in a browser or serve the folder (`python3 -m http.server`).
+One page (`index.html`) plus `media/`. No build step: open `index.html` or serve the folder (`python3 -m http.server`).
 
-## Page flow
-1. Sealed invitation card (maroon doors, gold line-art Ganesh emblem as inline SVG, gold "TA" seal), sized to fill most of the screen (card text scales with `cqw` units). Tap → doors open, petals burst, song fades in, boat video starts. "Open without music" link too. Card only shows when JS runs (`html.js`).
-2. Boat scene (`media/boat.mp4`, plays once, holds last frame) — names, TA monogram, date.
-3. Shiv–Parvati (`shiv-parvati.mp4`, loops) — blessing line + "request the honour…".
-4. Radha–Krishna (`radha-krishna.mp4`, plays once, holds on hands meeting) — "Our Story".
-5. Countdown panel (to 2026-12-02 00:00 IST).
-6. Haldi (`haldi.mp4`, loops) — event details.
-7. Festivities panel: Mehendi, Sangeet, Wedding (highlighted), Reception cards.
-8. Venue, RSVP (display-only thank-you; responses are NOT saved), closing panel with families.
+## Flow (story mode)
+0. Sealed card: maroon doors, gold Ganesh emblem (inline SVG), "TA" seal; sized with container units (`cqw`). Tap → doors open, petals, song fades in. "Open without music" too. Card only shows when JS runs (`html.js`). Personal greeting from `#Gaur-Family` or `?to=Gaur+Family` ("Dear Gaur Family").
+1. Boat (`boat.mp4`) — names, TA monogram, date, Aligarh, countdown to the baraat (2 Dec 2026 18:00 IST).
+2. Shiv–Parvati (`shiv-parvati.mp4`) — "Shri Atul Sharma & Smt Renu Sharma … wedding of their son Tijil with Arpita, daughter of Shri R.K. Sharma, Aligarh".
+3. Radha–Krishna (`radha-krishna.mp4`) — ॥ सखा सप्तपदा भव ॥ (Saptapadi, seventh vow).
+4. Celebrations over `mandap.mp4` — timeline: Haldi (2 Dec, 12 noon, venue not given), Baraat (2 Dec, 6 PM, Golden Stone Resort, directions + Google Calendar), Vadhu Aagman (3 Dec, morning).
+5. Closing over `haldi.mp4` — blessings of Late Shri Ramkishore Sharma & Late Smt Malti Devi; hosts Shri Atul Sharma & Smt Renu Sharma and family, Aligarh.
 
-## Behaviour notes
-- Layout: a 9:16 column (`--col`) centred; on wide screens a blurred copy of the current scene fills the sides (`.ambient`).
-- Section blending: each section fades to `--kajal` at its edges, and a scroll-linked `.veil` (opacity only) cross-dissolves between sections. Don't transform the videos on scroll or put `backdrop-filter` over them — both caused lag on phones.
-- Videos play only while in view; "once" clips hold their last frame, loops resume where they paused. Never reset `src`/`currentTime` or call `load()` on a clip that's playing — that's what made the opening restart. Clips are buffered in order, one at a time (`warm()`), so each is ready before it's reached. The `.ambient` blur is hidden on portrait screens.
-- Music: `media/tum-prem-ho.mp3` ("Tum Prem Ho (Reprise)", supplied by the user), loops, floating disc button to pause/play.
-- Fonts: Cinzel (caps), Cormorant Garamond (body), Tiro Devanagari Hindi, from Google Fonts with fallbacks.
-- Placeholders are marked `<span class="ph">[…]</span>` — search for `class="ph"` to find everything still to fill in.
+Not included by request: mandap/tilak, mehendi, sangeet, reception, RSVP, phone numbers, विनीत/बाल आकांक्षा section, "our story" text.
+
+## Behaviour
+- Autoplays like Instagram stories: `data-dur` seconds per scene (just under each clip's length), progress bars on top, Back / Next (Replay on the last scene) / music at the bottom; tap left third = back, elsewhere = next; hold = pause; arrow keys work. Scrolling by hand pauses autoplay.
+- Every clip loops. Entering a scene restarts its clip only if it is paused. Never reset `src`/`currentTime` or call `load()` on a playing clip (caused restarts). Clips buffer in order with `warm()`.
+- Cross-dissolve between scenes is a scroll-linked `.veil` (opacity only). Don't transform videos on scroll or put `backdrop-filter` over them — both lag on phones. `.ambient` blur is hidden on portrait screens.
+- Hindi/English toggle: elements carry `data-hi`; English is captured from innerHTML at load; choice saved in localStorage.
+- Music: `media/tum-prem-ho.mp3` ("Tum Prem Ho (Reprise)", supplied by the user), original file minus its last 12 s with a 2 s fade. Starts at 43.8 s (`SONG_START`) and loops back there. It is fetched whole into a blob so the seek works on any host. Music itself ends ~4:40 (speech after).
+- WhatsApp/OG preview: absolute `og:image` = `media/og.jpg` on the Pages URL.
 
 ## Media
-All four clips are Gemini-generated, 720×1280, 10 s (the two loops, `shiv-parvati` and `haldi`, are 9 s: their last second is crossfaded into their start so the loop has no visible jump), re-encoded to H.264 without audio (`-crf 24 -movflags +faststart`). `*.jpg` are first frames (posters), `*-end.jpg` last frames.
-
-## Still to do
-- Fill in placeholders: city, story text, event dates/times/venues/dress codes, venue address + map link (`map-link` in script), RSVP date, both families' names.
-- Optional clips for Mehendi, Sangeet, Wedding, Reception to give each its own full-screen scene (same pattern as the Haldi section).
-- Make RSVP store responses (currently only shows a thank-you).
-- Hosted on GitHub Pages from branch `claude/website-github-repo-8pfcqb`, root: https://tijilicious.github.io/Wedding-Invitation/
-- A single-file version (all media base64-embedded) can be rebuilt by inlining every `media/...` reference as a data: URI and adding `<!doctype html>` + a viewport meta.
+Gemini-generated, 720×1280, H.264, no audio, `-movflags +faststart`. `shiv-parvati` and `haldi` are 9 s with the last second crossfaded into the start (seamless loop). `mandap.mp4` is the first 12 s of the user's 20 s clip played forward then reversed (24 s seamless loop). `*.jpg` are posters.
