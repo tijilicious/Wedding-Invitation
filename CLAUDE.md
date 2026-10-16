@@ -16,7 +16,7 @@ One page (`index.html`) plus `media/`. No build step: open `index.html` or serve
 Not included by request: mandap/tilak, mehendi, sangeet, reception, RSVP, phone numbers, विनीत/बाल आकांक्षा section, "our story" text.
 
 ## Behaviour
-- Sizing: everything is in rem, and the root font size follows the story column (`--col` = phone width, or 9:16 of the screen height on wide screens): `clamp(15px, col × 0.044, 24px)`, slightly smaller on wide/short screens. Tap targets keep a 44px minimum. Don't add fixed px font sizes.
+- Sizing: large text for older guests. Everything is in rem; the root font size follows the story column (`--col` = phone width, or 9:16 of the screen height on wide screens): `clamp(17px, col × 0.056, 30px)` (~21–22px on a typical phone). `fit()` then shrinks the root in 0.5px steps only if some scene's text would run under the top bar or into the bottom controls (runs on load, font load, resize and language switch). Tap targets keep a 44px minimum. Don't add fixed px font sizes.
 - Entrance: doors open, then the card's photo (the boat poster) is lifted into a fixed `.reveal` layer and grows to the exact rect of the boat scene; when it lands the story starts, and the layer fades once the clip is actually playing. No scale/zoom on the card.
 - Autoplays like Instagram stories: `data-dur` seconds per scene (just under each clip's length), progress bars on top, Back / Next (Replay on the last scene) / music at the bottom; tap left third = back, elsewhere = next; hold = pause; arrow keys work. Scrolling by hand pauses autoplay.
 - Every clip loops. Entering a scene restarts its clip only if it is paused. Never reset `src`/`currentTime` or call `load()` on a playing clip (caused restarts). Clips buffer in order with `warm()`.

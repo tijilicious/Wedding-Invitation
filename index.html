@@ -22,8 +22,8 @@
   --gold-dim:rgba(220,184,114,.45);
   --lotus:#f2b8b0;
   --ivory:#f8efe2;
-  --ivory-dim:#cdbfae;
-  --scrim:rgba(10,6,4,.74);
+  --ivory-dim:#eadfcd;
+  --scrim:rgba(10,6,4,.8);
   --f-caps:"Cinzel","Trajan Pro","Times New Roman",serif;
   --f-body:"Cormorant Garamond","Garamond","Times New Roman",serif;
   --f-deva:"Tiro Devanagari Hindi","Noto Serif Devanagari","Mangal",serif;
@@ -33,7 +33,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{background:var(--kajal);scroll-snap-type:y mandatory;font-size:clamp(15px,calc(var(--col) * .044),24px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--kajal);scroll-snap-type:y mandatory;font-size:clamp(17px,calc(var(--col) * .056),30px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{background:var(--kajal);color:var(--ivory);font-family:var(--f-body);font-size:1.15rem;line-height:1.5;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 body.locked{overflow:hidden;height:100svh}
 img,video{max-width:100%;display:block}
@@ -59,17 +59,17 @@ main{width:var(--col);margin-inline:auto;box-shadow:0 0 90px rgba(0,0,0,.7)}
 .over.top{top:0;padding-top:calc(env(safe-area-inset-top,0px) + 3.6rem)}
 .over.bottom{bottom:0;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5.4rem)}
 .over.middle{top:0;bottom:0;justify-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 3.4rem);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5rem)}
-.shadow{text-shadow:0 2px 16px rgba(0,0,0,.65),0 1px 3px rgba(0,0,0,.5)}
+.shadow{text-shadow:0 2px 14px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.7)}
 .veil{position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--kajal);opacity:0;will-change:opacity}
 
 /* ---------- type ---------- */
 .deva{font-family:var(--f-deva);color:var(--gold);letter-spacing:.02em}
 .caps{font-family:var(--f-caps);font-weight:500;letter-spacing:.12em;text-transform:uppercase;line-height:1.1;text-wrap:balance;margin:0}
-.eyebrow{font-family:var(--f-caps);font-size:.8rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ivory-dim)}
+.eyebrow{font-family:var(--f-caps);font-size:.86rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ivory-dim)}
 .lede{font-style:italic;font-size:1.4rem;line-height:1.35;max-width:22em;margin:0;text-wrap:balance}
 p{margin:0}
-.note{font-size:1.05rem;color:var(--ivory-dim)}
-.names{font-size:2.15rem}
+.note{font-size:1.08rem;color:var(--ivory-dim)}
+.names{font-size:2.15rem;letter-spacing:.07em}
 .h2{font-size:1.85rem;letter-spacing:.08em}
 .rule{display:flex;align-items:center;gap:.6rem;width:8.5rem;color:var(--gold)}
 .rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
@@ -85,14 +85,14 @@ p{margin:0}
 .cd{display:flex;gap:1rem;justify-content:center;font-variant-numeric:tabular-nums}
 .cd span{display:flex;flex-direction:column;align-items:center;min-width:2.6rem}
 .cd b{font-family:var(--f-caps);font-weight:500;font-size:1.45rem;color:var(--ivory);line-height:1.1}
-.cd small{font-family:var(--f-caps);font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ivory-dim)}
+.cd small{font-family:var(--f-caps);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ivory-dim)}
 
 /* Hindi mode: Devanagari in the display roles */
 html[lang="hi"] .caps,html[lang="hi"] .eyebrow,html[lang="hi"] .cd small,html[lang="hi"] .tl h3,html[lang="hi"] .chip,html[lang="hi"] .ctl-btn{font-family:var(--f-deva);text-transform:none;letter-spacing:.02em}
 html[lang="hi"] .lede{font-family:var(--f-deva);font-style:normal;font-size:1.22rem;line-height:1.6}
-html[lang="hi"] .eyebrow{font-size:1rem}
-html[lang="hi"] .chip{font-size:.85rem}
-html[lang="hi"] .ctl-btn{font-size:1rem}
+html[lang="hi"] .eyebrow{font-size:1.05rem}
+html[lang="hi"] .chip{font-size:.95rem}
+html[lang="hi"] .ctl-btn{font-size:1.05rem}
 
 /* reveal (visible unless JS armed it) */
 html.js .rv{opacity:0;transform:translateY(14px);transition:opacity 1s ease,transform 1s ease;transition-delay:var(--d,0s)}
@@ -105,17 +105,17 @@ html.js .in .rv{opacity:1;transform:none}
 .tl li>div:last-child{min-width:0}
 .day{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;width:3.5rem;height:3.5rem;border-radius:50%;border:1px solid var(--gold);background:var(--kajal);font-variant-numeric:lining-nums}
 .day b{font-family:var(--f-caps);font-weight:500;font-size:1.45rem;color:var(--gold);line-height:1}
-.day small{font-family:var(--f-caps);font-size:.62rem;letter-spacing:.2em;color:var(--ivory-dim)}
+.day small{font-family:var(--f-caps);font-size:.7rem;letter-spacing:.2em;color:var(--ivory-dim)}
 html[lang="hi"] .day small{font-family:var(--f-deva);letter-spacing:0;font-size:.72rem}
 .tl li.main .day{background:linear-gradient(#7a1824,#3d0a12)}
 .tl .deva{font-size:.95rem;display:block}
-.tl h3{font-family:var(--f-caps);font-weight:500;letter-spacing:.12em;font-size:1.2rem;margin:0;color:var(--ivory)}
+.tl h3{font-family:var(--f-caps);font-weight:500;letter-spacing:.08em;font-size:1.25rem;margin:0;color:var(--ivory)}
 html[lang="hi"] .tl .deva{display:none}
 .tl li.main h3{color:var(--gold)}
 .tl .when{font-size:1.12rem}
-.tl .where{font-size:1.02rem;color:var(--ivory-dim)}
+.tl .where{font-size:1.05rem;color:var(--ivory-dim)}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
-.chip{display:inline-flex;align-items:center;gap:.35rem;min-height:max(34px,2rem);padding:0 .75rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.55);color:var(--gold);text-decoration:none;font:500 .68rem var(--f-caps);letter-spacing:.14em;text-transform:uppercase}
+.chip{display:inline-flex;align-items:center;gap:.35rem;min-height:max(34px,2rem);padding:0 .75rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.55);color:var(--gold);text-decoration:none;font:500 .78rem var(--f-caps);letter-spacing:.08em;text-transform:uppercase}
 .chip.solid{background:var(--gold);color:var(--kajal);border-color:var(--gold)}
 .chip svg{flex:none}
 
@@ -133,7 +133,7 @@ html[lang="hi"] .tool.lang{font-family:var(--f-caps);font-size:.66rem;letter-spa
 .controls{position:fixed;z-index:40;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:calc(var(--edge) + 14px);width:calc(var(--col) - 28px);display:grid;grid-template-columns:max(44px,2.7rem) 1fr max(44px,2.7rem);align-items:center;gap:8px}
 .ctl-round{width:max(44px,2.7rem);height:max(44px,2.7rem);border-radius:50%;border:1px solid var(--gold-dim);background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);padding:0}
 .ctl-round[disabled]{opacity:0;pointer-events:none}
-.ctl-btn{justify-self:center;display:inline-flex;align-items:center;gap:8px;min-height:max(44px,2.7rem);padding:0 1.1rem 0 1.35rem;border-radius:999px;border:1px solid var(--gold);background:rgba(18,13,11,.8);color:var(--gold);cursor:pointer;font:500 .8rem var(--f-caps);letter-spacing:.2em;text-transform:uppercase}
+.ctl-btn{justify-self:center;display:inline-flex;align-items:center;gap:8px;min-height:max(44px,2.7rem);padding:0 1.1rem 0 1.35rem;border-radius:999px;border:1px solid var(--gold);background:rgba(18,13,11,.8);color:var(--gold);cursor:pointer;font:500 .9rem var(--f-caps);letter-spacing:.14em;text-transform:uppercase}
 .ctl-btn svg{animation:nudge 1.6s ease-in-out infinite}
 @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
 .disc{width:max(30px,1.8rem);height:max(30px,1.8rem);border-radius:50%;background:radial-gradient(circle,var(--kajal) 22%,var(--gold) 24%,#9b7a3a 60%,var(--gold) 100%);display:flex;align-items:center;justify-content:center;animation:spin 5s linear infinite}
@@ -144,7 +144,7 @@ html[lang="hi"] .tool.lang{font-family:var(--f-caps);font-size:.66rem;letter-spa
 @keyframes spin{to{transform:rotate(360deg)}}
 .controls.pre-open{display:none}
 
-.hint{position:fixed;z-index:41;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 4.6rem);padding:.5rem 1rem;border-radius:999px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
+.hint{position:fixed;z-index:66;font-size:1rem!important;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 3.4rem);padding:.5rem 1rem;white-space:normal!important;text-align:center;border-radius:14px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
 .hint.gone{opacity:0;pointer-events:none}
 .paused-flag{position:fixed;z-index:39;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;pointer-events:none}
 .paused-flag.on{opacity:1}
@@ -183,7 +183,7 @@ html[lang="hi"] .face .caps{font-size:8.4cqw}
 .invite.open .door.r{transform:rotateY(108deg)}
 .invite.open .seal,.invite.open .face{opacity:0}
 .invite.open .seal{transform:scale(1.5)}
-.tap{font-family:var(--f-caps);font-size:.76rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ivory-dim);animation:breathe 2.4s ease-in-out infinite}
+.tap{font-family:var(--f-caps);font-size:.86rem;letter-spacing:.32em;text-transform:uppercase;color:var(--ivory-dim);animation:breathe 2.4s ease-in-out infinite}
 html[lang="hi"] .tap{font-family:var(--f-deva);font-size:.95rem;letter-spacing:.04em;text-transform:none}
 .quiet{background:none;border:0;color:var(--ivory-dim);font:italic 1rem var(--f-body);text-decoration:underline;text-underline-offset:4px;cursor:pointer;padding:6px}
 html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
@@ -197,7 +197,6 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
 #intro.dim>*{transition:opacity .7s ease;opacity:0}
 
 @media (max-aspect-ratio:9/19.5){.over{gap:.8rem}}
-@media (min-aspect-ratio:9/17){html{font-size:clamp(14px,calc(var(--col) * .039),22px)}}
 @media (min-aspect-ratio:9/17) and (max-width:700px){.mono{transform:scale(.82);margin-block:-.6rem}.over{gap:.55rem}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01s!important}.veil{display:none}}
 </style>
@@ -327,7 +326,6 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
         <li class="rv" style="--d:.35s">
           <div class="day"><b>02</b><small data-hi="दिसं.">DEC</small></div>
           <div>
-            <span class="deva">हल्दी</span>
             <h3 data-hi="हल्दी">Haldi</h3>
             <p class="when" data-hi="बुधवार · दोपहर 12:00 बजे">Wednesday · 12:00 noon</p>
             <div class="chips"><a class="chip" data-cal="haldi" href="https://calendar.google.com" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="2" width="10" height="9" rx="1.5" fill="none" stroke="currentColor"/><path d="M1 5h10M4 1v2M8 1v2" stroke="currentColor"/></svg><span data-hi="कैलेंडर में जोड़ें">Add to calendar</span></a></div>
@@ -336,10 +334,9 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
         <li class="main rv" style="--d:.55s">
           <div class="day"><b>02</b><small data-hi="दिसं.">DEC</small></div>
           <div>
-            <span class="deva">बारात प्रस्थान</span>
             <h3 data-hi="बारात प्रस्थान">Baraat</h3>
             <p class="when" data-hi="बुधवार · सायं 6:00 बजे">Wednesday · 6:00 PM</p>
-            <p class="where" data-hi="गोल्डन स्टोन रिज़ॉर्ट, रामघाट रोड, तालानगरी, अलीगढ़">Golden Stone Resort, Ramghat Road, Talanagri, Aligarh</p>
+            <p class="where" data-hi="गोल्डन स्टोन रिज़ॉर्ट, अलीगढ़">Golden Stone Resort, Aligarh</p>
             <div class="chips">
               <a class="chip solid" id="dir" href="https://maps.google.com" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 11s4-3.6 4-6.4A4 4 0 0 0 2 4.6C2 7.4 6 11 6 11z" fill="none" stroke="currentColor"/><circle cx="6" cy="4.6" r="1.4" fill="currentColor"/></svg><span data-hi="रास्ता देखें">Directions</span></a>
               <a class="chip" data-cal="baraat" href="https://calendar.google.com" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="2" width="10" height="9" rx="1.5" fill="none" stroke="currentColor"/><path d="M1 5h10M4 1v2M8 1v2" stroke="currentColor"/></svg><span data-hi="कैलेंडर में जोड़ें">Add to calendar</span></a>
@@ -349,7 +346,6 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
         <li class="rv" style="--d:.75s">
           <div class="day"><b>03</b><small data-hi="दिसं.">DEC</small></div>
           <div>
-            <span class="deva">वधू आगमन</span>
             <h3 data-hi="वधू आगमन">Vadhu Aagman</h3>
             <p class="when" data-hi="गुरुवार · प्रातः">Thursday · Morning</p>
             <p class="where" data-hi="नववधू का गृह प्रवेश">Welcoming the bride home</p>
@@ -436,7 +432,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     tr.forEach(el=>{el.innerHTML=l==='hi'?el.dataset.hi:el.dataset.en});
     $('lang').textContent=l==='hi'?'English':'हिंदी';
     $('lang').setAttribute('aria-label',l==='hi'?'Switch to English':'हिंदी में देखें');
-    updateNext();store.set('invite-lang',l);
+    updateNext();store.set('invite-lang',l);if(typeof fit==='function')fit();
   }
   $('lang').addEventListener('click',e=>{e.stopPropagation();setLang(lang==='hi'?'en':'hi')});
 
@@ -536,7 +532,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   // first-time hint
   let hintT;
   function hideHint(){$('hint').classList.add('gone')}
-  function showHint(){$('hint').textContent=lang==='hi'?'आगे बढ़ने के लिए टैप करें · रोकने के लिए दबाकर रखें':'Tap to go ahead · Hold to pause';$('hint').classList.remove('gone');clearTimeout(hintT);hintT=setTimeout(hideHint,5000)}
+  function showHint(){$('hint').textContent=lang==='hi'?'आगे बढ़ने के लिए कहीं भी टैप करें':'Tap anywhere to continue';$('hint').classList.remove('gone');clearTimeout(hintT);hintT=setTimeout(hideHint,5000)}
 
   /* ---------- cross-dissolve while moving between scenes ---------- */
   const veils=scenes.map(s=>{const v=document.createElement('div');v.className='veil';s.appendChild(v);return{s,v,vid:s.querySelector('video')}});
@@ -593,6 +589,24 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     $('cd-d').textContent=d;$('cd-h').textContent=String(h).padStart(2,'0');$('cd-m').textContent=String(m).padStart(2,'0')}
   cd();setInterval(cd,30000);
 
+  /* ---------- keep text as large as the screen allows ---------- */
+  function fit(){
+    const html=document.documentElement;html.style.fontSize='';
+    let size=parseFloat(getComputedStyle(html).fontSize);
+    const overflows=()=>{
+      const topLimit=$('topbar').getBoundingClientRect().bottom+6;
+      const ctl=$('controls'),wasHidden=ctl.classList.contains('pre-open');if(wasHidden)ctl.classList.remove('pre-open');
+      const botGap=innerHeight-ctl.getBoundingClientRect().top+6;if(wasHidden)ctl.classList.add('pre-open');
+      return [...document.querySelectorAll('.over')].some(o=>{
+        const sc=o.closest('.scene').getBoundingClientRect();let t=Infinity,b=-Infinity;
+        for(const c of o.children){const r=c.getBoundingClientRect();if(!r.height)continue;t=Math.min(t,r.top);b=Math.max(b,r.bottom)}
+        return (t-sc.top)<topLimit||(sc.bottom-b)<botGap;
+      });
+    };
+    for(let n=0;n<40&&size>14&&overflows();n++){size-=.5;html.style.fontSize=size+'px'}
+  }
+  let fitT;addEventListener('resize',()=>{clearTimeout(fitT);fitT=setTimeout(fit,150)});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
   setLang(store.get('invite-lang')==='hi'?'hi':'en');
 })();
 </script>
