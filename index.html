@@ -45,6 +45,10 @@ button{font:inherit;color:inherit}
 .ambient img.on{opacity:1}
 @media (max-aspect-ratio:10/16){.ambient{display:none}}
 main{width:var(--col);margin-inline:auto;box-shadow:0 0 90px rgba(0,0,0,.7)}
+html.js,html.js body{overflow:hidden;height:100%;overscroll-behavior:none;scroll-snap-type:none}
+html.js #story{position:fixed;top:0;bottom:0;left:var(--edge);width:var(--col);touch-action:none;overflow:hidden}
+html.js .scene{position:absolute;inset:0;height:auto;opacity:0;visibility:hidden;z-index:1;transition:opacity .75s ease,visibility 0s linear .75s}
+html.js .scene.active{opacity:1;visibility:visible;z-index:2;transition:opacity .75s ease,visibility 0s}
 
 /* ---------- scenes ---------- */
 .scene{position:relative;height:100vh;height:100svh;overflow:hidden;scroll-snap-align:start;scroll-snap-stop:always;background:var(--kajal);user-select:none;-webkit-user-select:none}
@@ -161,8 +165,8 @@ html[lang="hi"] .tool.lang{font-family:var(--f-caps);font-size:.66rem;letter-spa
 
 .hint{position:fixed;z-index:66;font-size:1rem!important;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 2.9rem);padding:.5rem 1rem;white-space:normal!important;text-align:center;border-radius:14px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
 .hint.gone{opacity:0;pointer-events:none}
-.paused-flag{position:fixed;z-index:39;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;pointer-events:none}
-.paused-flag.on{opacity:1}
+.paused-flag{position:fixed;z-index:45;cursor:pointer;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;pointer-events:none}
+.paused-flag.on{opacity:1;pointer-events:auto}
 
 /* ---------- intro: sealed card ---------- */
 #intro{display:none}
@@ -332,8 +336,8 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   </section>
 
   <!-- 4 · all events on one page (over the mandap clip); this page scales itself to fit -->
-  <section class="scene scrim-full" id="s-events" data-amb="mandap" data-dur="15">
-    <video src="media/mandap.mp4" poster="media/mandap.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+  <section class="scene scrim-full" id="s-events" data-amb="haldi" data-dur="15">
+    <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
       <div class="fitbox">
       <p class="eyebrow rv" data-hi="आपकी उपस्थिति प्रार्थनीय है">Join us for</p>
@@ -373,8 +377,8 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   </section>
 
   <!-- 5 · closing -->
-  <section class="scene scrim-full" id="s-end" data-amb="haldi" data-dur="0">
-    <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+  <section class="scene scrim-full" id="s-end" data-amb="mandap" data-dur="0">
+    <video src="media/mandap.mp4" poster="media/mandap.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
       <p class="eyebrow rv" data-hi="आशीर्वाद">With the blessings of</p>
       <p class="rv" style="--d:.15s;font-size:1.15rem" data-hi="स्व. श्री रामकिशोर शर्मा<br>एवं स्व. श्रीमती मालती देवी">Late Shri Ramkishore Sharma<br>&amp; Late Smt Malti Devi</p>
@@ -400,7 +404,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   <button class="ctl-round music off" id="music" aria-label="Play music"><span class="disc" aria-hidden="true"></span></button>
 </div>
 <p class="hint gone" id="hint" role="status"></p>
-<div class="paused-flag" id="pflag" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 12 12"><path d="M2 1h3v10H2zM7 1h3v10H7z" fill="#f8efe2"/></svg></div>
+<div class="paused-flag" id="pflag" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 12 12"><path d="M3 1v10l8-5z" fill="#f8efe2"/></svg></div>
 <audio id="song" src="media/tum-prem-ho.mp3" preload="auto"></audio>
 
 <script>
@@ -484,11 +488,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   vids.forEach(v=>{v.removeAttribute('autoplay');v.pause()});
   const kick=v=>{v.dataset.want='1';const p=v.play();if(p&&p.then)p.then(()=>v.classList.remove('kb')).catch(()=>v.classList.add('kb'))};
   vids.forEach(v=>v.addEventListener('playing',()=>v.classList.remove('kb')));
-  const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;
-    if(e.isIntersecting&&e.intersectionRatio>=.5){if(opened&&!reduce)kick(v)}
-    else if(!e.isIntersecting||e.intersectionRatio<.2){v.dataset.want='';if(!v.paused)v.pause()}
-  }),{threshold:[0,.2,.5]});
-  vids.forEach(v=>vio.observe(v));
+  // which clip plays is decided by the story engine (only the page on screen plays)
   // the song is fetched whole so it can always jump to its best part, whatever the host supports
   (async()=>{try{const r=await fetch(song.getAttribute('src'));if(!r.ok)return;const url=URL.createObjectURL(await r.blob());
     const playingNow=!song.paused,t=song.currentTime,vol=song.volume;song.src=url;
@@ -505,60 +505,66 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     if(v.preload!=='auto'){v.preload='auto';if(v.paused&&!v.currentTime)v.load()}
   })(0);
 
-  /* ---------- story engine ---------- */
+  /* ---------- story engine: one page at a time ---------- */
   const amb=[...document.querySelectorAll('.ambient img')];
   $('bars').innerHTML=scenes.map(()=>'<i></i>').join('');
   const barEls=[...$('bars').children];
-  let playing=!reduce,held=false,elapsed=0,last=0,progScroll=0;
+  let playing=!reduce,held=false,elapsed=0,last=0,navLock=0;
   const durOf=i=>(+scenes[i].dataset.dur||0)*1000;
+  const vidOf=i=>scenes[i]&&scenes[i].querySelector('video');
   function paint(){barEls.forEach((b,i)=>b.style.setProperty('--p',i<idx?1:i>idx?0:(durOf(i)?Math.min(1,elapsed/durOf(i)):1)))}
-  function enter(i){const fresh=i!==idx||!scenes[i].classList.contains('in');idx=i;elapsed=0;scenes[i].classList.add('in');
-    const v=scenes[i].querySelector('video');if(v&&fresh&&opened&&!reduce){if(v.paused){try{v.currentTime=0}catch(e){}}kick(v)}
-    amb.forEach(a=>a.classList.toggle('on',a.dataset.amb===scenes[i].dataset.amb));updateNext();paint()}
-  function setPlaying(p){playing=p;$('ic-pause').hidden=!p;$('ic-play').hidden=p;$('pp').setAttribute('aria-label',p?'Pause the story':'Play the story')}
-  function goTo(i){if(i<0)return;if(i>=scenes.length)i=0;progScroll=performance.now();
-    scenes[i].scrollIntoView({behavior:reduce?'auto':'smooth'});enter(i);if(i===0&&!playing&&!reduce)setPlaying(true)}
+  function enter(i){
+    const prev=idx;idx=i;elapsed=0;
+    scenes.forEach((sc,k)=>sc.classList.toggle('active',k===i));
+    const cur=scenes[i];cur.classList.remove('in');void cur.offsetWidth;cur.classList.add('in');
+    // the page we left stops after the cross-fade and resets its words for next time
+    if(prev>=0&&prev!==i){const ps=scenes[prev],pv=vidOf(prev);setTimeout(()=>{if(idx!==prev){ps.classList.remove('in');if(pv){pv.pause();try{pv.currentTime=0}catch(e){}}}},800)}
+    const v=vidOf(i);if(v&&opened&&!reduce){if(prev!==i){try{v.currentTime=0}catch(e){}}if(playing&&!held)kick(v)}
+    amb.forEach(a=>a.classList.toggle('on',a.dataset.amb===cur.dataset.amb));updateNext();paint();
+  }
+  function setPlaying(p){playing=p;$('ic-pause').hidden=!p;$('ic-play').hidden=p;$('pp').setAttribute('aria-label',p?'Pause':'Play');
+    $('pflag').classList.toggle('on',!p&&opened);
+    const v=vidOf(idx);if(v&&opened){if(p)kick(v);else{v.dataset.want='';v.pause()}}}
+  function goTo(i){if(!opened)return;if(i<0)i=0;if(i>=scenes.length)i=0;if(i===idx)return;navLock=performance.now();enter(i);hideHint()}
+  const next=()=>goTo(idx===scenes.length-1?0:idx+1), back=()=>{if(idx>0)goTo(idx-1)};
   function tick(now){const dt=Math.min(100,now-last);last=now;
     if(opened&&playing&&!held&&!document.hidden){const d=durOf(idx);
       if(d){elapsed+=dt;if(elapsed>=d){if(idx<scenes.length-1)goTo(idx+1);else setPlaying(false)}}}
     paint();requestAnimationFrame(tick)}
   requestAnimationFrame(t=>{last=t;tick(t)});
 
-  // which scene is on screen; scrolling by hand hands control to the guest
-  const sio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting||e.intersectionRatio<.6)return;
-    const i=scenes.indexOf(e.target);e.target.classList.add('in');if(i===idx)return;
-    const manual=performance.now()-progScroll>1400;enter(i);if(manual&&opened)setPlaying(false)}),{threshold:[.6]});
-  scenes.forEach(s=>sio.observe(s));
-
-  $('next').addEventListener('click',e=>{e.stopPropagation();goTo(idx===scenes.length-1?0:idx+1);hideHint()});
-  $('prev').addEventListener('click',e=>{e.stopPropagation();goTo(idx-1);hideHint()});
+  $('next').addEventListener('click',e=>{e.stopPropagation();next()});
+  $('prev').addEventListener('click',e=>{e.stopPropagation();back()});
   $('pp').addEventListener('click',e=>{e.stopPropagation();setPlaying(!playing)});
+  $('pflag').addEventListener('click',()=>setPlaying(true));
 
-  // tap the left third to go back, anywhere else to go ahead; press and hold to pause
-  let downAt=0,downX=0,downY=0,holdT;
-  const story=$('story');
-  story.addEventListener('pointerdown',e=>{if(!opened||e.target.closest('a,button'))return;downAt=performance.now();downX=e.clientX;downY=e.clientY;
-    clearTimeout(holdT);holdT=setTimeout(()=>{held=true;$('pflag').classList.add('on');const v=scenes[idx].querySelector('video');if(v)v.pause()},350)});
-  function release(e){clearTimeout(holdT);
-    if(held){held=false;$('pflag').classList.remove('on');const v=scenes[idx].querySelector('video');if(v)kick(v);downAt=0;return}
-    if(!downAt||e.type!=='pointerup')return;const moved=Math.hypot(e.clientX-downX,e.clientY-downY)>10;downAt=0;if(moved||e.target.closest('a,button'))return;
-    const r=scenes[idx].getBoundingClientRect();if(e.clientX<r.left+r.width*.3)goTo(idx-1);else goTo(idx===scenes.length-1?0:idx+1);hideHint()}
-  story.addEventListener('pointerup',release);story.addEventListener('pointercancel',release);story.addEventListener('pointerleave',release);
+  // tap right = next, tap left = back, swipe up/down = one page, press and hold = pause while held
+  const story=$('story');let sx=0,sy=0,st=0,down=false,holdT;
+  story.addEventListener('pointerdown',e=>{if(!opened||e.target.closest('a,button'))return;down=true;sx=e.clientX;sy=e.clientY;st=performance.now();
+    clearTimeout(holdT);holdT=setTimeout(()=>{if(!down)return;held=true;const v=vidOf(idx);if(v)v.pause()},380)});
+  function up(e){clearTimeout(holdT);if(!down)return;down=false;
+    if(held){held=false;const v=vidOf(idx);if(v&&playing)kick(v);return}
+    if(e.type!=='pointerup'||e.target.closest('a,button'))return;
+    const dx=e.clientX-sx,dy=e.clientY-sy;
+    if(Math.abs(dy)>45&&Math.abs(dy)>Math.abs(dx)){dy<0?next():back();return}   // swipe up = next, down = back
+    if(Math.abs(dx)>45){dx<0?next():back();return}                              // swipe left = next, right = back
+    if(Math.hypot(dx,dy)<14){const r=story.getBoundingClientRect();(e.clientX<r.left+r.width*.35)?back():next()}}
+  story.addEventListener('pointerup',up);story.addEventListener('pointercancel',up);
   story.addEventListener('contextmenu',e=>e.preventDefault());
-  addEventListener('keydown',e=>{if(!opened)return;if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();goTo(Math.min(idx+1,scenes.length-1))}else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();goTo(idx-1)}});
+  // mouse wheel / trackpad: one page per gesture
+  let wheelAcc=0,wheelT;
+  addEventListener('wheel',e=>{if(!opened)return;e.preventDefault();if(performance.now()-navLock<900){wheelAcc=0;return}
+    wheelAcc+=e.deltaY;clearTimeout(wheelT);wheelT=setTimeout(()=>wheelAcc=0,180);
+    if(wheelAcc>40){wheelAcc=0;next()}else if(wheelAcc<-40){wheelAcc=0;back()}},{passive:false});
+  addEventListener('keydown',e=>{if(!opened)return;
+    if(['ArrowRight','ArrowDown','PageDown'].includes(e.key)){e.preventDefault();next()}
+    else if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();back()}
+    else if(e.key===' '){e.preventDefault();setPlaying(!playing)}});
 
   // first-time hint
   let hintT;
   function hideHint(){$('hint').classList.add('gone')}
-  function showHint(){$('hint').textContent=lang==='hi'?'आगे बढ़ने के लिए कहीं भी टैप करें':'Tap anywhere to continue';$('hint').classList.remove('gone');clearTimeout(hintT);hintT=setTimeout(hideHint,5000)}
-
-  /* ---------- cross-dissolve while moving between scenes ---------- */
-  const veils=scenes.map(s=>{const v=document.createElement('div');v.className='veil';s.appendChild(v);return{s,v,vid:s.querySelector('video')}});
-  let ticking=false;
-  function blend(){ticking=false;const vh=innerHeight;for(const o of veils){const r=o.s.getBoundingClientRect();if(r.bottom<-vh||r.top>2*vh)continue;
-    const seen=Math.max(0,Math.min(r.bottom,vh)-Math.max(r.top,0))/Math.min(r.height,vh);const k=1-Math.min(1,seen),e=k*k*(3-2*k);
-    o.v.style.opacity=(e*.92).toFixed(3)}}
-  if(!reduce){addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(blend)}},{passive:true});addEventListener('resize',blend);blend()}
+  function showHint(){$('hint').textContent=lang==='hi'?'आगे के लिए दाईं ओर, पीछे के लिए बाईं ओर टैप करें':'Tap right for next, left to go back';$('hint').classList.remove('gone');clearTimeout(hintT);hintT=setTimeout(hideHint,5000)}
 
   /* ---------- open the card ---------- */
   document.body.classList.add('locked');
@@ -573,7 +579,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
         p.style.cssText=`--c:${cols[i%cols.length]};--x:${Math.cos(a)*d}px;--y:${Math.sin(a)*d+rnd(60,260)}px;--r:${rnd(-600,600)}deg;animation-delay:${rnd(.3,.6)}s`;
         document.body.appendChild(p);setTimeout(()=>p.remove(),3400)}}
     const begin=()=>{ // the story starts with the boat clip already playing underneath
-      document.body.classList.remove('locked');scrollTo(0,0);
+      document.body.classList.remove('locked');
       $('topbar').classList.remove('pre-open');$('controls').classList.remove('pre-open');
       idx=-1;enter(0);setPlaying(!reduce);showHint();
     };
