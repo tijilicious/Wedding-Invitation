@@ -33,7 +33,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{background:var(--kajal);scroll-snap-type:y mandatory;font-size:clamp(17px,calc(var(--col) * .056),30px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--kajal);scroll-snap-type:y mandatory;font-size:clamp(19px,calc(var(--col) * .064),34px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{background:var(--kajal);color:var(--ivory);font-family:var(--f-body);font-size:1.15rem;line-height:1.5;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 body.locked{overflow:hidden;height:100svh}
 img,video{max-width:100%;display:block}
@@ -55,10 +55,10 @@ main{width:var(--col);margin-inline:auto;box-shadow:0 0 90px rgba(0,0,0,.7)}
 .scrim-bottom::before{bottom:0;height:66%;background:linear-gradient(transparent,rgba(10,6,4,.45) 38%,var(--scrim))}
 .scrim-full::before{inset:0;background:linear-gradient(rgba(10,6,4,.82),rgba(10,6,4,.62) 50%,rgba(10,6,4,.86))}
 .scene::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(var(--kajal),transparent 10%,transparent 90%,var(--kajal))}
-.over{position:absolute;left:0;right:0;z-index:2;padding:0 max(18px,1.3rem);display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7rem}
-.over.top{top:0;padding-top:calc(env(safe-area-inset-top,0px) + 3.6rem)}
+.over{position:absolute;left:0;right:0;z-index:2;padding:0 max(14px,.8rem);display:flex;flex-direction:column;align-items:center;text-align:center;gap:.7rem}
+.over.top{top:0;padding-top:calc(env(safe-area-inset-top,0px) + 2.8rem)}
 .over.bottom{bottom:0;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5.4rem)}
-.over.middle{top:0;bottom:0;justify-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 3.4rem);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5rem)}
+.over.middle{top:0;bottom:0;justify-content:center;padding-top:calc(env(safe-area-inset-top,0px) + 2.6rem);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5rem)}
 .shadow{text-shadow:0 2px 14px rgba(0,0,0,.8),0 1px 3px rgba(0,0,0,.7)}
 .veil{position:absolute;inset:0;z-index:5;pointer-events:none;background:var(--kajal);opacity:0;will-change:opacity}
 
@@ -91,15 +91,26 @@ p{margin:0}
 html[lang="hi"] .caps,html[lang="hi"] .eyebrow,html[lang="hi"] .cd small,html[lang="hi"] .tl h3,html[lang="hi"] .chip,html[lang="hi"] .ctl-btn{font-family:var(--f-deva);text-transform:none;letter-spacing:.02em}
 html[lang="hi"] .lede{font-family:var(--f-deva);font-style:normal;font-size:1.22rem;line-height:1.6}
 html[lang="hi"] .eyebrow{font-size:1.05rem}
-html[lang="hi"] .chip{font-size:.95rem}
+html[lang="hi"] .chip{font-size:.98rem}
 html[lang="hi"] .ctl-btn{font-size:1.05rem}
 
 /* reveal (visible unless JS armed it) */
 html.js .rv{opacity:0;transform:translateY(14px);transition:opacity 1s ease,transform 1s ease;transition-delay:var(--d,0s)}
 html.js .in .rv{opacity:1;transform:none}
 
+/* ---------- event screens ---------- */
+.ev-deva{font-size:1.35rem;margin-bottom:-.35rem}
+html[lang="hi"] .ev-deva{display:none}
+.ev-day{font-size:1.3rem;color:var(--ivory)}
+.ev-time{font-family:var(--f-caps);font-weight:500;font-size:2rem;color:var(--gold);line-height:1.1;font-variant-numeric:lining-nums}
+html[lang="hi"] .ev-time{font-family:var(--f-deva);font-size:1.75rem}
+.ev-place{font-size:1.25rem;color:var(--ivory)}
+.ev-next{margin-top:.6rem;padding-top:.8rem;border-top:1px solid var(--gold-dim);display:flex;flex-direction:column;gap:.2rem;width:min(100%,19rem)}
+.ev-sub{font-size:1.15rem;color:var(--ivory)}
+html[lang="hi"] .ev-day,html[lang="hi"] .ev-place,html[lang="hi"] .ev-sub{font-family:var(--f-deva)}
+.chips{justify-content:center}
 /* ---------- timeline (celebrations) ---------- */
-.tl{list-style:none;margin:.25rem 0 0;padding:0;width:100%;max-width:21rem;display:flex;flex-direction:column;gap:.9rem;text-align:left;position:relative}
+.tl{list-style:none;margin:.1rem 0 0;padding:0;width:100%;max-width:21rem;display:flex;flex-direction:column;gap:.65rem;text-align:left;position:relative}
 .tl::before{content:"";position:absolute;left:1.75rem;top:1rem;bottom:1rem;width:1px;background:linear-gradient(var(--gold),var(--gold-dim))}
 .tl li{display:grid;grid-template-columns:3.5rem minmax(0,1fr);gap:.85rem;align-items:start}
 .tl li>div:last-child{min-width:0}
@@ -114,14 +125,14 @@ html[lang="hi"] .tl .deva{display:none}
 .tl li.main h3{color:var(--gold)}
 .tl .when{font-size:1.12rem}
 .tl .where{font-size:1.05rem;color:var(--ivory-dim)}
-.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem}
-.chip{display:inline-flex;align-items:center;gap:.35rem;min-height:max(34px,2rem);padding:0 .75rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.55);color:var(--gold);text-decoration:none;font:500 .78rem var(--f-caps);letter-spacing:.08em;text-transform:uppercase}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
+.chip{display:inline-flex;align-items:center;gap:.4rem;min-height:max(40px,2.2rem);padding:0 .9rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.55);color:var(--gold);text-decoration:none;font:600 1.02rem var(--f-body);letter-spacing:0;text-transform:none}
 .chip.solid{background:var(--gold);color:var(--kajal);border-color:var(--gold)}
 .chip svg{flex:none}
 
 /* ---------- story chrome ---------- */
-.topbar{position:fixed;z-index:65;top:calc(env(safe-area-inset-top,0px) + 10px);left:calc(var(--edge) + 12px);width:calc(var(--col) - 24px);display:flex;flex-direction:column;gap:8px;pointer-events:none}
-.bars{display:flex;gap:4px;align-items:center}
+.topbar{position:fixed;z-index:65;top:calc(env(safe-area-inset-top,0px) + 10px);left:calc(var(--edge) + 12px);width:calc(var(--col) - 24px);display:flex;flex-direction:row;align-items:center;gap:10px;pointer-events:none}
+.bars{display:flex;gap:4px;align-items:center;flex:1;min-width:0}
 .bars i{flex:1;height:2.5px;border-radius:2px;background:rgba(248,239,226,.28);overflow:hidden;position:relative}
 .bars i::after{content:"";position:absolute;inset:0;background:var(--ivory);transform-origin:left;transform:scaleX(var(--p,0))}
 .tools{display:flex;justify-content:flex-end;gap:6px;pointer-events:auto}
@@ -144,7 +155,7 @@ html[lang="hi"] .tool.lang{font-family:var(--f-caps);font-size:.66rem;letter-spa
 @keyframes spin{to{transform:rotate(360deg)}}
 .controls.pre-open{display:none}
 
-.hint{position:fixed;z-index:66;font-size:1rem!important;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 3.4rem);padding:.5rem 1rem;white-space:normal!important;text-align:center;border-radius:14px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
+.hint{position:fixed;z-index:66;font-size:1rem!important;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 2.9rem);padding:.5rem 1rem;white-space:normal!important;text-align:center;border-radius:14px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
 .hint.gone{opacity:0;pointer-events:none}
 .paused-flag{position:fixed;z-index:39;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;pointer-events:none}
 .paused-flag.on{opacity:1}
@@ -309,55 +320,51 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   <section class="scene scrim-bottom" id="s-rk" data-amb="rk" data-dur="9.6">
     <video src="media/radha-krishna.mp4" poster="media/radha-krishna.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over bottom shadow">
-      <p class="deva rv" style="font-size:2.1rem;line-height:1.2;--d:.3s">॥ सखा सप्तपदा भव ॥</p>
+      <p class="deva rv" style="font-size:min(1.9rem,8.6vw);line-height:1.2;white-space:nowrap;--d:.3s">॥ सखा सप्तपदा भव ॥</p>
       <div class="rule rv" style="--d:.6s"><i></i></div>
       <p class="lede rv" style="--d:.9s" data-hi="सात फेरों के साथ, जीवन भर के सखा बनो">With these seven steps,<br>be my companion for life</p>
       <p class="eyebrow rv" style="--d:1.2s" data-hi="सप्तपदी · सातवाँ वचन">Saptapadi · the seventh vow</p>
     </div>
   </section>
 
-  <!-- 4 · celebrations (over the haldi clip) -->
-  <section class="scene scrim-full" id="s-events" data-amb="mandap" data-dur="16">
+  <!-- 4 · haldi -->
+  <section class="scene scrim-full" id="s-haldi" data-amb="haldi" data-dur="9">
+    <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+    <div class="over middle shadow">
+      <p class="eyebrow rv" data-hi="मांगलिक कार्यक्रम">The celebrations begin</p>
+      <p class="deva ev-deva rv" style="--d:.1s">हल्दी</p>
+      <h2 class="caps h2 rv" style="--d:.2s" data-hi="हल्दी">Haldi</h2>
+      <div class="rule rv" style="--d:.3s"><i></i></div>
+      <p class="ev-day rv" style="--d:.4s" data-hi="बुधवार, 2 दिसंबर 2026">Wednesday, 2 December 2026</p>
+      <p class="ev-time rv" style="--d:.5s" data-hi="दोपहर 12:00 बजे">12:00 noon</p>
+      <div class="chips rv" style="--d:.65s"><a class="chip" data-cal="haldi" href="https://calendar.google.com" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="2" width="10" height="9" rx="1.5" fill="none" stroke="currentColor"/><path d="M1 5h10M4 1v2M8 1v2" stroke="currentColor"/></svg><span data-hi="कैलेंडर में जोड़ें">Add to calendar</span></a></div>
+    </div>
+  </section>
+
+  <!-- 5 · baraat + vadhu aagman (over the mandap clip) -->
+  <section class="scene scrim-full" id="s-events" data-amb="mandap" data-dur="14">
     <video src="media/mandap.mp4" poster="media/mandap.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
-      <p class="eyebrow rv" data-hi="आपकी उपस्थिति प्रार्थनीय है">Join us for</p>
-      <h2 class="caps h2 rv" style="--d:.15s" data-hi="मांगलिक कार्यक्रम">The Celebrations</h2>
-      <ol class="tl">
-        <li class="rv" style="--d:.35s">
-          <div class="day"><b>02</b><small data-hi="दिसं.">DEC</small></div>
-          <div>
-            <h3 data-hi="हल्दी">Haldi</h3>
-            <p class="when" data-hi="बुधवार · दोपहर 12:00 बजे">Wednesday · 12:00 noon</p>
-            <div class="chips"><a class="chip" data-cal="haldi" href="https://calendar.google.com" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="2" width="10" height="9" rx="1.5" fill="none" stroke="currentColor"/><path d="M1 5h10M4 1v2M8 1v2" stroke="currentColor"/></svg><span data-hi="कैलेंडर में जोड़ें">Add to calendar</span></a></div>
-          </div>
-        </li>
-        <li class="main rv" style="--d:.55s">
-          <div class="day"><b>02</b><small data-hi="दिसं.">DEC</small></div>
-          <div>
-            <h3 data-hi="बारात प्रस्थान">Baraat</h3>
-            <p class="when" data-hi="बुधवार · सायं 6:00 बजे">Wednesday · 6:00 PM</p>
-            <p class="where" data-hi="गोल्डन स्टोन रिज़ॉर्ट, अलीगढ़">Golden Stone Resort, Aligarh</p>
-            <div class="chips">
-              <a class="chip solid" id="dir" href="https://maps.google.com" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 11s4-3.6 4-6.4A4 4 0 0 0 2 4.6C2 7.4 6 11 6 11z" fill="none" stroke="currentColor"/><circle cx="6" cy="4.6" r="1.4" fill="currentColor"/></svg><span data-hi="रास्ता देखें">Directions</span></a>
-              <a class="chip" data-cal="baraat" href="https://calendar.google.com" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="2" width="10" height="9" rx="1.5" fill="none" stroke="currentColor"/><path d="M1 5h10M4 1v2M8 1v2" stroke="currentColor"/></svg><span data-hi="कैलेंडर में जोड़ें">Add to calendar</span></a>
-            </div>
-          </div>
-        </li>
-        <li class="rv" style="--d:.75s">
-          <div class="day"><b>03</b><small data-hi="दिसं.">DEC</small></div>
-          <div>
-            <h3 data-hi="वधू आगमन">Vadhu Aagman</h3>
-            <p class="when" data-hi="गुरुवार · प्रातः">Thursday · Morning</p>
-            <p class="where" data-hi="नववधू का गृह प्रवेश">Welcoming the bride home</p>
-          </div>
-        </li>
-      </ol>
+      <p class="eyebrow rv" data-hi="आपकी उपस्थिति प्रार्थनीय है">Join us for the</p>
+      <h2 class="caps h2 rv" style="--d:.2s" data-hi="बारात प्रस्थान">Baraat</h2>
+      <div class="rule rv" style="--d:.3s"><i></i></div>
+      <p class="ev-day rv" style="--d:.4s" data-hi="बुधवार, 2 दिसंबर 2026">Wednesday, 2 December 2026</p>
+      <p class="ev-time rv" style="--d:.5s" data-hi="सायं 6:00 बजे">6:00 PM</p>
+      <p class="ev-place rv" style="--d:.6s" data-hi="गोल्डन स्टोन रिज़ॉर्ट, अलीगढ़">Golden Stone Resort, Aligarh</p>
+      <div class="chips rv" style="--d:.7s">
+        <a class="chip solid" id="dir" href="https://maps.google.com" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 11s4-3.6 4-6.4A4 4 0 0 0 2 4.6C2 7.4 6 11 6 11z" fill="none" stroke="currentColor"/><circle cx="6" cy="4.6" r="1.4" fill="currentColor"/></svg><span data-hi="रास्ता देखें">Directions</span></a>
+        <a class="chip" data-cal="baraat" href="https://calendar.google.com" target="_blank" rel="noopener"><svg width="14" height="14" viewBox="0 0 12 12" aria-hidden="true"><rect x="1" y="2" width="10" height="9" rx="1.5" fill="none" stroke="currentColor"/><path d="M1 5h10M4 1v2M8 1v2" stroke="currentColor"/></svg><span data-hi="कैलेंडर">Calendar</span></a>
+      </div>
+      <div class="ev-next rv" style="--d:.9s">
+        <p class="eyebrow" data-hi="अगली सुबह">The next morning</p>
+        <p class="ev-sub" data-hi="वधू आगमन · गुरुवार, 3 दिसंबर">Vadhu Aagman · Thu, 3 Dec</p>
+      </div>
     </div>
   </section>
 
   <!-- 5 · closing -->
-  <section class="scene scrim-full" id="s-end" data-amb="haldi" data-dur="0">
-    <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+  <section class="scene scrim-full" id="s-end" data-amb="boat" data-dur="0">
+    <video src="media/boat.mp4" poster="media/boat.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
       <p class="eyebrow rv" data-hi="आशीर्वाद">With the blessings of</p>
       <p class="rv" style="--d:.15s;font-size:1.15rem" data-hi="स्व. श्री रामकिशोर शर्मा<br>एवं स्व. श्रीमती मालती देवी">Late Shri Ramkishore Sharma<br>&amp; Late Smt Malti Devi</p>
