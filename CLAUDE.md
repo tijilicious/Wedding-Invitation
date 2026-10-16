@@ -10,14 +10,13 @@ One page (`index.html`) plus `media/`. No build step: open `index.html` or serve
 1. Boat (`boat.mp4`) — names, TA monogram, date, Aligarh, countdown to the baraat (2 Dec 2026 18:00 IST).
 2. Shiv–Parvati (`shiv-parvati.mp4`) — "Shri Atul Sharma & Smt Renu Sharma … wedding of their son Tijil with Arpita, daughter of Shri R.K. Sharma, Aligarh".
 3. Radha–Krishna (`radha-krishna.mp4`) — ॥ सखा सप्तपदा भव ॥ (Saptapadi, seventh vow).
-4. Haldi over `haldi.mp4` — 2 Dec 2026, 12:00 noon (venue not given), Google Calendar button.
-5. Baraat over `mandap.mp4` — 2 Dec 2026, 6:00 PM, Golden Stone Resort (Directions + Calendar); "The next morning: Vadhu Aagman · Thu, 3 Dec".
-6. Closing over `boat.mp4` — blessings of Late Shri Ramkishore Sharma & Late Smt Malti Devi; hosts Shri Atul Sharma & Smt Renu Sharma and family, Aligarh.
+4. Celebrations over `mandap.mp4` — one page with all events: Haldi (2 Dec, 12 noon, Calendar), Baraat (2 Dec, 6 PM, Golden Stone Resort, Directions + Calendar), Vadhu Aagman (3 Dec, morning). This page is wrapped in `.fitbox` and scales itself (laid out wider by 1/k, then `scale(k)`, k found by binary search) so its line breaks stay the same while the other pages keep the large global size.
+5. Closing over `haldi.mp4` — blessings of Late Shri Ramkishore Sharma & Late Smt Malti Devi; hosts Shri Atul Sharma & Smt Renu Sharma and family, Aligarh.
 
 Not included by request: mandap/tilak, mehendi, sangeet, reception, RSVP, phone numbers, विनीत/बाल आकांक्षा section, "our story" text.
 
 ## Behaviour
-- Sizing: large text for older guests. Everything is in rem; the root font size follows the story column (`--col` = phone width, or 9:16 of the screen height on wide screens): `clamp(19px, col × 0.064, 34px)` (~24px on a typical phone). One event per screen so the text can stay this large. `fit()` then shrinks the root in 0.5px steps only if some scene's text would run under the top bar or into the bottom controls (runs on load, font load, resize and language switch). Tap targets keep a 44px minimum. Don't add fixed px font sizes.
+- Sizing: large text for older guests. Everything is in rem; the root font size follows the story column (`--col` = phone width, or 9:16 of the screen height on wide screens): `clamp(20px, col × 0.072, 38px)` (~25px on a typical phone); `fit()` ignores the events page, which scales itself. `fit()` then shrinks the root in 0.5px steps only if some scene's text would run under the top bar or into the bottom controls (runs on load, font load, resize and language switch). Tap targets keep a 44px minimum. Don't add fixed px font sizes.
 - Entrance: doors open, then the card's photo (the boat poster) is lifted into a fixed `.reveal` layer and grows to the exact rect of the boat scene; when it lands the story starts, and the layer fades once the clip is actually playing. No scale/zoom on the card.
 - Autoplays like Instagram stories: `data-dur` seconds per scene (just under each clip's length), progress bars on top, Back / Next (Replay on the last scene) / music at the bottom; tap left third = back, elsewhere = next; hold = pause; arrow keys work. Scrolling by hand pauses autoplay.
 - iPhone Low Power Mode / data-saver block autoplay even for muted inline video, leaving only the poster frame. The tap that opens the card calls play() on every clip (then pauses the ones not needed), which unlocks them for later programmatic play. If play() is still refused, the clip gets `.kb` (slow drift) so it never sits frozen.
@@ -28,4 +27,4 @@ Not included by request: mandap/tilak, mehendi, sangeet, reception, RSVP, phone 
 - WhatsApp/OG preview: absolute `og:image` = `media/og.jpg` on the Pages URL.
 
 ## Media
-Gemini-generated, 720×1280, H.264, no audio, `-movflags +faststart`. `shiv-parvati` and `haldi` are 9 s with the last second crossfaded into the start (seamless loop). `mandap.mp4` is the first 12 s of the user's 20 s clip played forward then reversed (24 s seamless loop). `*.jpg` are posters.
+Gemini-generated, 720×1280, H.264, no audio, `-movflags +faststart`. `shiv-parvati` and `haldi` are 9 s with the last second crossfaded into the start (seamless loop). `mandap.mp4` is only the first 10 s of the user's 20 s clip (the user does not want the later horse part), played forward then reversed (20 s seamless loop). `*.jpg` are posters.
