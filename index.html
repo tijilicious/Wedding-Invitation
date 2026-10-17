@@ -485,7 +485,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     (function step(now){const k=Math.max(0,Math.min(1,(now-t0)/ms));song.volume=Math.max(0,Math.min(1,from+(target-from)*k));if(k<1)fadeRAF=requestAnimationFrame(step);else done&&done()})(t0)}
   function setMusic(on){mbtn.classList.toggle('off',!on);mbtn.setAttribute('aria-label',on?'Pause music':'Play music')}
   function seekStart(){if(song.dataset.started)return;song.dataset.started='1';
-    const go=()=>{try{song.currentTime=SONG_START}catch(e){}};if(song.readyState>=1)go();else song.addEventListener('loadedmetadata',go,{once:true})}
+    const go=()=>{try{song.currentTime=SONG_START}catch(e){}setTimeout(()=>{if(song.currentTime<SONG_START-3)songWhole()},1500)};if(song.readyState>=1)go();else song.addEventListener('loadedmetadata',go,{once:true})}
   function playSong(){seekStart();song.dataset.want='1';song.volume=0;const p=song.play();
     (p&&p.then?p:Promise.resolve()).then(()=>{fadeTo(.85,2200);setMusic(true)}).catch(()=>setMusic(false))}
   song.addEventListener('ended',()=>{try{song.currentTime=SONG_START}catch(e){}song.play().catch(()=>{})});
@@ -496,15 +496,16 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   let opened=false;
   const vids=[...document.querySelectorAll('.scene video')];
   vids.forEach(v=>{v.removeAttribute('autoplay');v.pause()});
+  let stalled=false;
+  vids.forEach(v=>{v.addEventListener('waiting',()=>{if(v.closest('.scene').classList.contains('active'))stalled=true});v.addEventListener('playing',()=>{stalled=false});v.addEventListener('canplay',()=>{stalled=false})});
   const kick=v=>{v.dataset.want='1';const p=v.play();if(p&&p.then)p.then(()=>v.classList.remove('kb')).catch(()=>v.classList.add('kb'))};
   vids.forEach(v=>v.addEventListener('playing',()=>v.classList.remove('kb')));
   // which clip plays is decided by the story engine (only the page on screen plays)
-  // the song is fetched whole so it can always jump to its best part, whatever the host supports
-  (async()=>{try{const r=await fetch(song.getAttribute('src'));if(!r.ok)return;const url=URL.createObjectURL(await r.blob());
-    const playingNow=!song.paused,t=song.currentTime,vol=song.volume;song.src=url;
-    const at=song.dataset.started?Math.max(t,SONG_START):0;
-    song.addEventListener('loadedmetadata',()=>{if(at){try{song.currentTime=at}catch(e){}}if(playingNow||song.dataset.want){song.volume=vol;song.play().catch(()=>{})}},{once:true});
-    song.load();}catch(e){}})();
+  // the song streams; it is downloaded whole only if this host can't jump straight to its best part
+  let songFixed=false;
+  async function songWhole(){if(songFixed)return;songFixed=true;try{const r=await fetch(song.getAttribute('src'));if(!r.ok)return;const url=URL.createObjectURL(await r.blob());
+    const want=!!song.dataset.want,vol=song.volume;song.src=url;
+    song.addEventListener('loadedmetadata',()=>{try{song.currentTime=SONG_START}catch(e){}if(want){song.volume=vol;song.play().catch(()=>{})}},{once:true});song.load()}catch(e){}}
   // buffer clips in order, one at a time, so each is ready before it is reached (never touch src on a playing clip)
   (function warm(i){
     const v=vids[i];if(!v)return;
@@ -524,7 +525,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   const vidOf=i=>scenes[i]&&scenes[i].querySelector('video');
   function paint(){barEls.forEach((b,i)=>b.style.setProperty('--p',i<idx?1:i>idx?0:(durOf(i)?Math.min(1,elapsed/durOf(i)):1)))}
   function enter(i){
-    const prev=idx;idx=i;elapsed=0;
+    const prev=idx;idx=i;elapsed=0;stalled=false;
     scenes.forEach((sc,k)=>sc.classList.toggle('active',k===i));
     const cur=scenes[i];cur.classList.remove('in');void cur.offsetWidth;cur.classList.add('in');
     // the page we left stops after the cross-fade and resets its words for next time
@@ -538,7 +539,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   function goTo(i){if(!opened)return;if(i<0)i=0;if(i>=scenes.length)i=0;if(i===idx)return;navLock=performance.now();enter(i);hideHint()}
   const next=()=>goTo(idx===scenes.length-1?0:idx+1), back=()=>{if(idx>0)goTo(idx-1)};
   function tick(now){const dt=Math.min(100,now-last);last=now;
-    if(opened&&playing&&!held&&!document.hidden){const d=durOf(idx);
+    if(opened&&playing&&!held&&!stalled&&!document.hidden){const d=durOf(idx);
       if(d){elapsed+=dt;if(elapsed>=d){if(idx<scenes.length-1)goTo(idx+1);else setPlaying(false)}}}
     paint();requestAnimationFrame(tick)}
   requestAnimationFrame(t=>{last=t;tick(t)});
