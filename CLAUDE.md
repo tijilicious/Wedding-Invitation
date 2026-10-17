@@ -7,11 +7,11 @@ One page (`index.html`) plus `media/`. No build step: open `index.html` or serve
 
 ## Flow (story mode)
 0. Sealed card: maroon doors, gold Ganesh emblem (inline SVG), "TA" seal; sized with container units (`cqw`). Tap → doors open, petals, song fades in. "Open without music" too. Card only shows when JS runs (`html.js`). Personal greeting from `#Gaur-Family` or `?to=Gaur+Family` ("Dear Gaur Family").
-1. Boat (`boat.mp4`) — names, TA monogram, date, Aligarh, countdown to the baraat (2 Dec 2026 18:00 IST).
-2. Shiv–Parvati (`shiv-parvati.mp4`) — "Shri Atul Sharma & Smt Renu Sharma … wedding of their son Tijil with Arpita, daughter of Shri R.K. Sharma, Aligarh".
+1. Boat (`boat.mp4`) — names, TA monogram, date, venue (Golden Stone Resort, Aligarh), countdown to the baraat (2 Dec 2026 18:00 IST).
+2. Shiv–Parvati (`shiv-parvati.mp4`) — "Smt Renu Sharma & Shri Atul Sharma request … wedding of their son / TIJIL & ARPITA / daughter of Smt Anjali Sharma & Shri R.K. Sharma, Aligarh". Mothers' names always come first; Arpita is named only once on this page.
 3. Radha–Krishna (`radha-krishna.mp4`) — ॥ सखा सप्तपदा भव ॥ (Saptapadi, seventh vow).
 4. Celebrations over `haldi.mp4` — one page with all events: Haldi (2 Dec, 12 noon, Calendar), Baraat (2 Dec, 6 PM, Golden Stone Resort, Directions + Calendar), Vadhu Aagman (3 Dec, morning). This page is wrapped in `.fitbox` and scales itself (laid out wider by 1/k, then `scale(k)`, k found by binary search) so its line breaks stay the same while the other pages keep the large global size.
-5. Closing over `mandap.mp4` (placeholder until a dedicated closing clip exists) — blessings of Late Shri Ramkishore Sharma & Late Smt Malti Devi; hosts Shri Atul Sharma & Smt Renu Sharma and family, Aligarh.
+5. Closing over `mandap.mp4` (placeholder until a dedicated closing clip exists) — blessings of Late Shri Ramkishore Sharma & Late Smt Malti Devi; hosts Smt Renu Sharma & Shri Atul Sharma and family (no city).
 
 Not included by request: mandap/tilak, mehendi, sangeet, reception, RSVP, phone numbers, विनीत/बाल आकांक्षा section, "our story" text.
 
