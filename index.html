@@ -33,7 +33,7 @@
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-html{background:var(--kajal);scroll-snap-type:y mandatory;font-size:clamp(20px,calc(var(--col) * .072),38px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html{background:var(--kajal);scroll-snap-type:y mandatory;font-size:clamp(22px,calc(var(--col) * .084),44px);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{background:var(--kajal);color:var(--ivory);font-family:var(--f-body);font-size:1.15rem;line-height:1.5;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 body.locked{overflow:hidden;height:100svh}
 img,video{max-width:100%;display:block}
@@ -71,14 +71,14 @@ html.js .scene.active{opacity:1;visibility:visible;z-index:2;transition:opacity 
 /* ---------- type ---------- */
 .deva{font-family:var(--f-deva);color:var(--gold);letter-spacing:.02em}
 .caps{font-family:var(--f-caps);font-weight:500;letter-spacing:.12em;text-transform:uppercase;line-height:1.1;text-wrap:balance;margin:0}
-.eyebrow{font-family:var(--f-caps);font-size:.86rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ivory-dim)}
+.eyebrow{font-family:var(--f-caps);font-size:.86rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ivory-dim)}
 .lede{font-style:italic;font-size:1.4rem;line-height:1.35;max-width:22em;margin:0;text-wrap:balance}
 p{margin:0}
 .note{font-size:1.08rem;color:var(--ivory-dim)}
 .venue{font-size:1.15rem;color:var(--ivory);letter-spacing:.02em}
 html[lang="hi"] .venue{font-family:var(--f-deva);font-size:1.08rem}
 .body{font-size:1.25rem;line-height:1.4;color:var(--ivory);max-width:22em;text-wrap:balance}
-.hosts{font-size:1.15rem;color:var(--gold);letter-spacing:.1em}
+.hosts{font-size:.98rem;color:var(--gold);letter-spacing:.04em;line-height:1.25}
 .couple{font-size:1.65rem;color:var(--ivory);letter-spacing:.08em}
 html[lang="hi"] .body{font-family:var(--f-deva);font-size:1.15rem;line-height:1.6}
 .names{font-size:2.15rem;letter-spacing:.07em}
@@ -87,10 +87,14 @@ html[lang="hi"] .body{font-family:var(--f-deva);font-size:1.15rem;line-height:1.
 .rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
 .rule::after{transform:scaleX(-1)}
 .rule i{width:.36rem;height:.36rem;transform:rotate(45deg);background:var(--gold);flex:none}
-.mono{position:relative;width:6.6rem;height:5.9rem;font-family:var(--f-body);color:var(--ivory);line-height:1}
-.mono span{position:absolute;font-size:5.2rem}
-.mono span:first-child{left:.67rem;top:-.33rem}
-.mono span:last-child{left:2.6rem;top:1.22rem;color:var(--gold)}
+.mono{position:relative;display:flex;align-items:flex-start;justify-content:center;height:6.2rem;font-family:var(--f-body);color:var(--ivory);line-height:1}
+.mono span{font-size:5.2rem;line-height:.95}
+.mono span:first-child{margin-top:-.2rem}
+.mono span:last-child{margin-left:-1.15rem;margin-top:1.3rem;color:var(--gold)}
+#s-boat .mono{font-size:.7em;height:4.4rem}
+#s-boat .mono span{font-size:3.65rem}
+#s-boat .mono span:last-child{margin-left:-.8rem;margin-top:.9rem}
+#s-boat .mono span:first-child{margin-top:-.14rem}
 .date{display:flex;align-items:center;gap:.8rem;font-family:var(--f-caps);letter-spacing:.2em;font-size:1rem;font-variant-numeric:lining-nums tabular-nums}
 .date b{font-weight:500;font-size:2.1rem;color:var(--gold);letter-spacing:.04em}
 .date span{padding-block:4px;border-block:1px solid var(--gold-dim)}
@@ -104,7 +108,7 @@ html[lang="hi"] .caps,html[lang="hi"] .eyebrow,html[lang="hi"] .cd small,html[la
 html[lang="hi"] .lede{font-family:var(--f-deva);font-style:normal;font-size:1.22rem;line-height:1.6}
 html[lang="hi"] .eyebrow{font-size:1.05rem}
 html[lang="hi"] .chip{font-size:.98rem}
-html[lang="hi"] .ctl-btn{font-size:1.05rem}
+html[lang="hi"] .ctl-btn{font-size:clamp(16px,1.05rem,20px)}
 
 /* reveal (visible unless JS armed it) */
 html.js .rv{opacity:0;transform:translateY(14px);transition:opacity 1s ease,transform 1s ease;transition-delay:var(--d,0s)}
@@ -124,7 +128,7 @@ html[lang="hi"] .ev-day,html[lang="hi"] .ev-place,html[lang="hi"] .ev-sub{font-f
 .tl .chips{justify-content:flex-start}
 .fitbox{display:flex;flex-direction:column;align-items:center;gap:.7rem;width:100%;transform-origin:50% 50%}
 /* ---------- timeline (celebrations) ---------- */
-.tl{list-style:none;margin:.1rem 0 0;padding:0;width:100%;max-width:21rem;display:flex;flex-direction:column;gap:.65rem;text-align:left;position:relative}
+.tl{list-style:none;margin:0;padding:0;width:100%;max-width:21rem;display:flex;flex-direction:column;gap:.5rem;text-align:left;position:relative}
 .tl::before{content:"";position:absolute;left:1.75rem;top:1rem;bottom:1rem;width:1px;background:linear-gradient(var(--gold),var(--gold-dim))}
 .tl li{display:grid;grid-template-columns:3.5rem minmax(0,1fr);gap:.85rem;align-items:start}
 .tl li>div:last-child{min-width:0}
@@ -140,7 +144,7 @@ html[lang="hi"] .tl .deva{display:none}
 .tl .when{font-size:1.12rem}
 .tl .where{font-size:1.05rem;color:var(--ivory-dim)}
 .chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.3rem}
-.chip{white-space:nowrap;display:inline-flex;align-items:center;gap:.4rem;min-height:max(40px,2.2rem);padding:0 .9rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.55);color:var(--gold);text-decoration:none;font:600 1.02rem var(--f-body);letter-spacing:0;text-transform:none}
+.chip{white-space:nowrap;display:inline-flex;align-items:center;gap:.4rem;min-height:max(40px,2rem);padding:0 .8rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.55);color:var(--gold);text-decoration:none;font:600 1.02rem var(--f-body);letter-spacing:0;text-transform:none}
 .chip.solid{background:var(--gold);color:var(--kajal);border-color:var(--gold)}
 .chip svg{flex:none}
 
@@ -150,18 +154,18 @@ html[lang="hi"] .tl .deva{display:none}
 .bars i{flex:1;height:2.5px;border-radius:2px;background:rgba(248,239,226,.28);overflow:hidden;position:relative}
 .bars i::after{content:"";position:absolute;inset:0;background:var(--ivory);transform-origin:left;transform:scaleX(var(--p,0))}
 .tools{display:flex;justify-content:flex-end;gap:6px;pointer-events:auto}
-.tool{min-height:max(32px,1.9rem);min-width:max(32px,1.9rem);padding:0 .6rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.78);color:var(--ivory);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:.95rem}
+.tool{min-height:clamp(32px,1.9rem,40px);min-width:clamp(32px,1.9rem,40px);padding:0 .6rem;border-radius:999px;border:1px solid var(--gold-dim);background:rgba(18,13,11,.78);color:var(--ivory);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;font-size:clamp(14px,.95rem,18px)}
 .tool.lang{font-family:var(--f-deva)}
 html[lang="hi"] .tool.lang{font-family:var(--f-caps);font-size:.66rem;letter-spacing:.18em}
 .pre-open .bars,.pre-open #pp{visibility:hidden}
 
-.controls{position:fixed;z-index:40;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:calc(var(--edge) + 14px);width:calc(var(--col) - 28px);display:grid;grid-template-columns:max(44px,2.7rem) 1fr max(44px,2.7rem);align-items:center;gap:8px}
-.ctl-round{width:max(44px,2.7rem);height:max(44px,2.7rem);border-radius:50%;border:1px solid var(--gold-dim);background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);padding:0}
+.controls{position:fixed;z-index:40;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);left:calc(var(--edge) + 14px);width:calc(var(--col) - 28px);display:grid;grid-template-columns:clamp(44px,2.7rem,52px) 1fr clamp(44px,2.7rem,52px);align-items:center;gap:8px}
+.ctl-round{width:clamp(44px,2.7rem,52px);height:clamp(44px,2.7rem,52px);border-radius:50%;border:1px solid var(--gold-dim);background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--gold);padding:0}
 .ctl-round[disabled]{opacity:0;pointer-events:none}
-.ctl-btn{justify-self:center;display:inline-flex;align-items:center;gap:8px;min-height:max(44px,2.7rem);padding:0 1.1rem 0 1.35rem;border-radius:999px;border:1px solid var(--gold);background:rgba(18,13,11,.8);color:var(--gold);cursor:pointer;font:500 .9rem var(--f-caps);letter-spacing:.14em;text-transform:uppercase}
+.ctl-btn{justify-self:center;display:inline-flex;align-items:center;gap:8px;min-height:clamp(44px,2.7rem,52px);padding:0 clamp(16px,1.1rem,22px) 0 clamp(18px,1.35rem,26px);border-radius:999px;border:1px solid var(--gold);background:rgba(18,13,11,.8);color:var(--gold);cursor:pointer;font:500 clamp(14px,.9rem,18px) var(--f-caps);letter-spacing:.14em;text-transform:uppercase}
 .ctl-btn svg{animation:nudge 1.6s ease-in-out infinite}
 @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(4px)}}
-.disc{width:max(30px,1.8rem);height:max(30px,1.8rem);border-radius:50%;background:radial-gradient(circle,var(--kajal) 22%,var(--gold) 24%,#9b7a3a 60%,var(--gold) 100%);display:flex;align-items:center;justify-content:center;animation:spin 5s linear infinite}
+.disc{width:clamp(30px,1.8rem,36px);height:clamp(30px,1.8rem,36px);border-radius:50%;background:radial-gradient(circle,var(--kajal) 22%,var(--gold) 24%,#9b7a3a 60%,var(--gold) 100%);display:flex;align-items:center;justify-content:center;animation:spin 5s linear infinite}
 .disc::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--ivory)}
 .music{position:relative}
 .music.off .disc{animation-play-state:paused;filter:grayscale(.7) brightness(.75)}
@@ -169,7 +173,7 @@ html[lang="hi"] .tool.lang{font-family:var(--f-caps);font-size:.66rem;letter-spa
 @keyframes spin{to{transform:rotate(360deg)}}
 .controls.pre-open{display:none}
 
-.hint{position:fixed;z-index:66;font-size:1rem!important;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 2.9rem);padding:.5rem 1rem;white-space:normal!important;text-align:center;border-radius:14px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
+.hint{position:fixed;z-index:66;font-size:clamp(15px,1rem,19px)!important;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 2.9rem);padding:.5rem 1rem;white-space:normal!important;text-align:center;border-radius:14px;background:rgba(18,13,11,.82);border:1px solid var(--gold-dim);font-size:.95rem;white-space:nowrap;transition:opacity .8s;max-width:calc(var(--col) - 32px);overflow:hidden;text-overflow:ellipsis;margin:0}
 .hint.gone{opacity:0;pointer-events:none}
 .paused-flag{position:fixed;z-index:45;cursor:pointer;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:rgba(18,13,11,.78);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;pointer-events:none}
 .paused-flag.on{opacity:1;pointer-events:auto}
@@ -335,7 +339,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   <section class="scene scrim-bottom" id="s-rk" data-amb="rk" data-dur="9.6">
     <video src="media/radha-krishna.mp4" poster="media/radha-krishna.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over bottom shadow">
-      <p class="deva rv" style="font-size:min(1.9rem,9.6vw);line-height:1.2;white-space:nowrap;--d:.3s">॥ सखा सप्तपदा भव ॥</p>
+      <p class="deva rv" style="font-size:1.5rem;line-height:1.2;white-space:nowrap;--d:.3s">॥ सखा सप्तपदा भव ॥</p>
       <div class="rule rv" style="--d:.6s"><i></i></div>
       <p class="lede rv" style="--d:.9s" data-hi="सात फेरों के साथ, जीवन भर के सखा बनो">With these seven steps,<br>be my companion for life</p>
       <p class="eyebrow rv" style="--d:1.2s" data-hi="सप्तपदी · सातवाँ वचन">Saptapadi · the seventh vow</p>
@@ -347,7 +351,6 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
       <div class="fitbox">
-      <p class="eyebrow rv" data-hi="आपकी उपस्थिति प्रार्थनीय है">Join us for</p>
       <h2 class="caps h2 rv" style="--d:.15s" data-hi="मांगलिक कार्यक्रम">Celebrations</h2>
       <ol class="tl">
         <li class="rv" style="--d:.35s">
@@ -622,25 +625,36 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   cd();setInterval(cd,30000);
 
   /* ---------- keep text as large as the screen allows ---------- */
+  const ZOOM_OK=typeof CSS!=='undefined'&&CSS.supports&&CSS.supports('zoom','1');
+  // the Saptapadi page keeps its earlier size (what the old single scale gave it)
+  const capFor=id=>{if(id!=='s-rk')return 1;const root=parseFloat(getComputedStyle(document.documentElement).fontSize),col=$('story').getBoundingClientRect().width;const hi=document.documentElement.lang==='hi'?1.08:1;return Math.min(1,hi*Math.min(col*.063,innerHeight*.031)/root)};
   function fit(){
     const html=document.documentElement;html.style.fontSize='';
     const box=document.querySelector('#s-events .fitbox');if(box){box.style.transform='';box.style.width=''}
-    let size=parseFloat(getComputedStyle(html).fontSize);
+    const overs=[...document.querySelectorAll('.over')];overs.forEach(o=>o.style.zoom='');
     const ctl=$('controls');
     const limits=()=>{const wasHidden=ctl.classList.contains('pre-open');if(wasHidden)ctl.classList.remove('pre-open');
       const top=$('topbar').getBoundingClientRect().bottom+6,bot=innerHeight-ctl.getBoundingClientRect().top+6;if(wasHidden)ctl.classList.add('pre-open');return{top,bot}};
-    const extent=o=>{let t=Infinity,b=-Infinity;for(const c of o.querySelectorAll(':scope > *, :scope > .fitbox > *')){if(c.classList.contains('fitbox'))continue;const r=c.getBoundingClientRect();if(!r.height)continue;t=Math.min(t,r.top);b=Math.max(b,r.bottom)}return{t,b}};
-    const overflows=()=>{const L=limits();return [...document.querySelectorAll('.over')].some(o=>{const sc=o.closest('.scene');if(sc.id==='s-events')return false;
-      const r=sc.getBoundingClientRect(),e=extent(o);return (e.t-r.top)<L.top||(r.bottom-e.b)<L.bot})};
-    for(let n=0;n<50&&size>15&&overflows();n++){size-=.5;html.style.fontSize=size+'px'}
+    const L=limits();
+    const fitsPage=o=>{const r=o.closest('.scene').getBoundingClientRect();let t=Infinity,b=-Infinity;
+      for(const c of o.children){const q=c.getBoundingClientRect();if(!q.height)continue;t=Math.min(t,q.top);b=Math.max(b,q.bottom)}
+      return (t-r.top)>=L.top&&(r.bottom-b)>=L.bot&&o.scrollWidth<=o.clientWidth+1};
+    if(ZOOM_OK){
+      for(const o of overs){const id=o.closest('.scene').id;if(id==='s-events')continue;
+        const cap=capFor(id);o.style.zoom=cap;if(fitsPage(o))continue;
+        let lo=.4,hi=cap;for(let i=0;i<12;i++){const m=(lo+hi)/2;o.style.zoom=m;if(fitsPage(o))lo=m;else hi=m}o.style.zoom=lo}
+    }else{ // older browsers: shrink everything together
+      let size=parseFloat(getComputedStyle(html).fontSize);
+      const bad=()=>overs.some(o=>o.closest('.scene').id!=='s-events'&&!fitsPage(o));
+      for(let n=0;n<60&&size>15&&bad();n++){size-=.5;html.style.fontSize=size+'px'}
+    }
     // the events page shrinks on its own, only as much as it needs
-    if(box){const L=limits(),sc=box.closest('.scene').getBoundingClientRect(),avail=sc.height-L.top-L.bot-12;
+    if(box){const sc=box.closest('.scene').getBoundingClientRect(),avail=sc.height-L.top-L.bot-12;
       const par=box.parentElement,cs=getComputedStyle(par),availW=par.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
-      // lay the page out wider by 1/k, then scale it down by k: same line breaks, just smaller
       box.style.flex='none';
       const fits=k=>{box.style.width=(availW/k)+'px';return box.scrollHeight*k<=avail};
-      let k=1;if(!fits(1)){let lo=.35,hi=1;for(let i=0;i<14;i++){const m=(lo+hi)/2;if(fits(m))lo=m;else hi=m}k=lo}
-      box.style.width=(availW/k)+'px';box.style.flex='none';
+      let k=1;if(!fits(1)){let lo=.3,hi=1;for(let i=0;i<14;i++){const m=(lo+hi)/2;if(fits(m))lo=m;else hi=m}k=lo}
+      box.style.width=(availW/k)+'px';
       box.style.transform=k<1?`scale(${k.toFixed(3)})`:'';
       par.style.paddingTop=L.top+'px';par.style.paddingBottom=L.bot+'px'}
   }
