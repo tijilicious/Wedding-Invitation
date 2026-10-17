@@ -324,7 +324,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
 
   <!-- 2 · Shiv–Parvati -->
   <section class="scene scrim-bottom" id="s-shiv" data-amb="shiv" data-dur="8.8">
-    <video src="media/shiv-parvati.mp4" poster="media/shiv-parvati.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+    <video src="media/shiv-parvati.mp4" poster="media/shiv-parvati.jpg" muted playsinline webkit-playsinline loop preload="none" data-mode="loop"></video>
     <div class="over bottom shadow">
       <p class="deva rv" style="font-size:1.2rem">महादेव और माँ पार्वती के आशीर्वाद से</p>
       <div class="rule rv" style="--d:.3s"><i></i></div>
@@ -337,7 +337,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
 
   <!-- 3 · Radha–Krishna -->
   <section class="scene scrim-bottom" id="s-rk" data-amb="rk" data-dur="9.6">
-    <video src="media/radha-krishna.mp4" poster="media/radha-krishna.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+    <video src="media/radha-krishna.mp4" poster="media/radha-krishna.jpg" muted playsinline webkit-playsinline loop preload="none" data-mode="loop"></video>
     <div class="over bottom shadow">
       <p class="deva rv" style="font-size:1.5rem;line-height:1.2;white-space:nowrap;--d:.3s">॥ सखा सप्तपदा भव ॥</p>
       <div class="rule rv" style="--d:.6s"><i></i></div>
@@ -348,7 +348,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
 
   <!-- 4 · all events on one page (over the mandap clip); this page scales itself to fit -->
   <section class="scene scrim-full" id="s-events" data-amb="haldi" data-dur="14.4" data-rate="0.62">
-    <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+    <video src="media/haldi.mp4" poster="media/haldi.jpg" muted playsinline webkit-playsinline loop preload="none" data-mode="loop"></video>
     <div class="over middle shadow">
       <div class="fitbox">
       <h2 class="caps h2 rv" style="--d:.15s" data-hi="मांगलिक कार्यक्रम">Celebrations</h2>
@@ -388,7 +388,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
 
   <!-- 5 · closing -->
   <section class="scene scrim-full" id="s-end" data-amb="mandap" data-dur="10">
-    <video src="media/mandap.mp4" poster="media/mandap.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
+    <video src="media/mandap.mp4" poster="media/mandap.jpg" muted playsinline webkit-playsinline loop preload="none" data-mode="loop"></video>
     <div class="over middle shadow">
       <p class="eyebrow rv" data-hi="आशीर्वाद">With the blessings of</p>
       <p class="rv" style="--d:.15s;font-size:1.15rem" data-hi="स्व. श्री रामकिशोर शर्मा<br>एवं स्व. श्रीमती मालती देवी">Late Shri Ramkishore Sharma<br>&amp; Late Smt Malti Devi</p>
@@ -415,14 +415,14 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
 </div>
 <p class="hint gone" id="hint" role="status"></p>
 <div class="paused-flag" id="pflag" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 12 12"><path d="M3 1v10l8-5z" fill="#f8efe2"/></svg></div>
-<audio id="song" src="media/tum-prem-ho.mp3" preload="auto"></audio>
+<audio id="song" src="media/tum-prem-ho.mp3" preload="none"></audio>
 
 <script>
 (() => {
   const $ = id => document.getElementById(id);
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const rnd = (a,b) => a + Math.random()*(b-a);
-  const SONG_START = 43.8;   // open the song at its fullest part
+  const SONG_START = 0;     // the song file itself now begins at its fullest part   // open the song at its fullest part
   const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}} };
 
   /* ---------- door pattern ---------- */
@@ -508,10 +508,26 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     const want=!!song.dataset.want,vol=song.volume;song.src=url;
     song.addEventListener('loadedmetadata',()=>{try{song.currentTime=SONG_START}catch(e){}if(want){song.volume=vol;song.play().catch(()=>{})}},{once:true});song.load()}catch(e){}}
   // buffer clips in order, one at a time, so each is ready before it is reached (never touch src on a playing clip)
-  // download every clip fully, in story order, so nothing waits on the network mid-play
+  // pick clip quality by connection: lighter (-sd, 540p) versions on slow or data-saver connections
+  let useSD=false;
+  try{const c=navigator.connection;if(c&&(c.saveData||/(^|-)(2g|3g)$/.test(c.effectiveType||'')||(c.downlink&&c.downlink<2.5)))useSD=true}catch(e){}
+  const sdOf=u=>u.replace(/(-sd)?\.mp4$/,'-sd.mp4');
+  const switchToSD=()=>{useSD=true;vids.forEach(v=>{if(!blobOf.has(v)&&v.paused&&!v.closest('.scene').classList.contains('active')){v.src=sdOf(v.getAttribute('src'))}})};
   const blobOf=new Map();
+  if(useSD)vids.forEach(v=>{v.src=sdOf(v.getAttribute('src'))});
+  // download every clip fully, in story order, so nothing waits on the network mid-play
   function useLocal(v){const u=blobOf.get(v);if(u&&v.paused&&v.src!==u){const t=v.currentTime;v.src=u;v.load();if(t){try{v.currentTime=t}catch(e){}}}}
-  (async()=>{for(const v of vids){try{const r=await fetch(v.getAttribute('src'));if(!r.ok)continue;blobOf.set(v,URL.createObjectURL(await r.blob()));
+  (async()=>{for(const [k,v] of vids.entries()){try{
+      const url=useSD?sdOf(v.getAttribute('src')):v.getAttribute('src');const t0=performance.now();
+      const r=await fetch(url);if(!r.ok)continue;
+      // read the first clip as it arrives and judge the connection after ~1.5 s
+      let blob;if(k===0&&!useSD&&r.body&&r.body.getReader){const rd=r.body.getReader(),parts=[];let got=0,judged=false;
+        for(;;){const {done,value}=await rd.read();if(done)break;parts.push(value);got+=value.length;
+          const secs=(performance.now()-t0)/1000;if(!judged&&secs>1.5){judged=true;if(got*8/1e6/secs<3){switchToSD();try{rd.cancel()}catch(e){}break}}}
+        if(useSD){const r2=await fetch(sdOf(url));if(!r2.ok)continue;blob=await r2.blob()}   // slow: stop the big file, get the light one
+        else{if(!judged&&got*8/1e6/Math.max(.05,(performance.now()-t0)/1000)<3)switchToSD();blob=new Blob(parts,{type:'video/mp4'})}}
+      else blob=await r.blob();
+      blobOf.set(v,URL.createObjectURL(blob));
       if(!v.closest('.scene').classList.contains('active'))useLocal(v)}catch(e){}}})();
 
   /* ---------- story engine: one page at a time ---------- */
