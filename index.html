@@ -323,7 +323,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   </section>
 
   <!-- 2 · Shiv–Parvati -->
-  <section class="scene scrim-bottom" id="s-shiv" data-amb="shiv" data-dur="10">
+  <section class="scene scrim-bottom" id="s-shiv" data-amb="shiv" data-dur="8.8">
     <video src="media/shiv-parvati.mp4" poster="media/shiv-parvati.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over bottom shadow">
       <p class="deva rv" style="font-size:1.2rem">महादेव और माँ पार्वती के आशीर्वाद से</p>
@@ -347,7 +347,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   </section>
 
   <!-- 4 · all events on one page (over the mandap clip); this page scales itself to fit -->
-  <section class="scene scrim-full" id="s-events" data-amb="haldi" data-dur="15">
+  <section class="scene scrim-full" id="s-events" data-amb="haldi" data-dur="14.4" data-rate="0.62">
     <video src="media/haldi.mp4" poster="media/haldi.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
       <div class="fitbox">
@@ -387,7 +387,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   </section>
 
   <!-- 5 · closing -->
-  <section class="scene scrim-full" id="s-end" data-amb="mandap" data-dur="0">
+  <section class="scene scrim-full" id="s-end" data-amb="mandap" data-dur="10">
     <video src="media/mandap.mp4" poster="media/mandap.jpg" autoplay muted playsinline webkit-playsinline loop preload="metadata" data-mode="loop"></video>
     <div class="over middle shadow">
       <p class="eyebrow rv" data-hi="आशीर्वाद">With the blessings of</p>
@@ -497,8 +497,9 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   const vids=[...document.querySelectorAll('.scene video')];
   vids.forEach(v=>{v.removeAttribute('autoplay');v.pause()});
   let stalled=false;
-  vids.forEach(v=>{v.addEventListener('waiting',()=>{if(v.closest('.scene').classList.contains('active'))stalled=true});v.addEventListener('playing',()=>{stalled=false});v.addEventListener('canplay',()=>{stalled=false})});
-  const kick=v=>{v.dataset.want='1';const p=v.play();if(p&&p.then)p.then(()=>v.classList.remove('kb')).catch(()=>v.classList.add('kb'))};
+  vids.forEach(v=>{v.addEventListener('waiting',()=>{if(v.closest('.scene').classList.contains('active'))stalled=true});v.addEventListener('playing',()=>{stalled=false;if(v.playbackRate!==rateOf(v))v.playbackRate=rateOf(v)});v.addEventListener('canplay',()=>{stalled=false})});
+  const rateOf=v=>+(v.closest('.scene').dataset.rate||1);
+  const kick=v=>{try{v.playbackRate=rateOf(v)}catch(e){}v.dataset.want='1';const p=v.play();if(p&&p.then)p.then(()=>v.classList.remove('kb')).catch(()=>v.classList.add('kb'))};
   vids.forEach(v=>v.addEventListener('playing',()=>v.classList.remove('kb')));
   // which clip plays is decided by the story engine (only the page on screen plays)
   // the song streams; it is downloaded whole only if this host can't jump straight to its best part
@@ -507,14 +508,11 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     const want=!!song.dataset.want,vol=song.volume;song.src=url;
     song.addEventListener('loadedmetadata',()=>{try{song.currentTime=SONG_START}catch(e){}if(want){song.volume=vol;song.play().catch(()=>{})}},{once:true});song.load()}catch(e){}}
   // buffer clips in order, one at a time, so each is ready before it is reached (never touch src on a playing clip)
-  (function warm(i){
-    const v=vids[i];if(!v)return;
-    const next=()=>{v.removeEventListener('canplaythrough',next);v.removeEventListener('error',next);clearTimeout(t);warm(i+1)};
-    const t=setTimeout(next,8000);
-    if(v.readyState>=4){next();return}
-    v.addEventListener('canplaythrough',next);v.addEventListener('error',next);
-    if(v.preload!=='auto'){v.preload='auto';if(v.paused&&!v.currentTime)v.load()}
-  })(0);
+  // download every clip fully, in story order, so nothing waits on the network mid-play
+  const blobOf=new Map();
+  function useLocal(v){const u=blobOf.get(v);if(u&&v.paused&&v.src!==u){const t=v.currentTime;v.src=u;v.load();if(t){try{v.currentTime=t}catch(e){}}}}
+  (async()=>{for(const v of vids){try{const r=await fetch(v.getAttribute('src'));if(!r.ok)continue;blobOf.set(v,URL.createObjectURL(await r.blob()));
+      if(!v.closest('.scene').classList.contains('active'))useLocal(v)}catch(e){}}})();
 
   /* ---------- story engine: one page at a time ---------- */
   const amb=[...document.querySelectorAll('.ambient img')];
@@ -530,7 +528,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
     const cur=scenes[i];cur.classList.remove('in');void cur.offsetWidth;cur.classList.add('in');
     // the page we left stops after the cross-fade and resets its words for next time
     if(prev>=0&&prev!==i){const ps=scenes[prev],pv=vidOf(prev);setTimeout(()=>{if(idx!==prev){ps.classList.remove('in');if(pv){pv.pause();try{pv.currentTime=0}catch(e){}}}},800)}
-    const v=vidOf(i);if(v&&opened&&!reduce){if(prev!==i){try{v.currentTime=0}catch(e){}}if(playing&&!held)kick(v)}
+    const v=vidOf(i);if(v&&opened&&!reduce){if(prev!==i){v.pause();useLocal(v);try{v.currentTime=0}catch(e){}}if(playing&&!held)kick(v)}
     amb.forEach(a=>a.classList.toggle('on',a.dataset.amb===cur.dataset.amb));updateNext();paint();
   }
   function setPlaying(p){playing=p;$('ic-pause').hidden=!p;$('ic-play').hidden=p;$('pp').setAttribute('aria-label',p?'Pause':'Play');
@@ -540,7 +538,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   const next=()=>goTo(idx===scenes.length-1?0:idx+1), back=()=>{if(idx>0)goTo(idx-1)};
   function tick(now){const dt=Math.min(100,now-last);last=now;
     if(opened&&playing&&!held&&!stalled&&!document.hidden){const d=durOf(idx);
-      if(d){elapsed+=dt;if(elapsed>=d){if(idx<scenes.length-1)goTo(idx+1);else setPlaying(false)}}}
+      if(d){elapsed=Math.min(d,elapsed+dt);if(elapsed>=d&&idx<scenes.length-1)goTo(idx+1)}}
     paint();requestAnimationFrame(tick)}
   requestAnimationFrame(t=>{last=t;tick(t)});
 
