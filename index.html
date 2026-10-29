@@ -260,7 +260,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   <img class="bgi" src="media/card-open.jpg" alt="">
   <div class="film" id="film" role="button" tabindex="0" aria-label="Open the invitation">
     <video id="v-card" src="media/card-open2.mp4" poster="media/card-open.jpg" muted playsinline webkit-playsinline preload="auto"></video>
-    <img class="end" src="media/card-open2-end.jpg" alt="" loading="lazy">
+    <img class="end" src="media/card-open2-end.jpg" alt="">
     <span class="ring" aria-hidden="true"></span>
     <div class="card-text">
       <p class="ct-shloka" style="--d:0s">॥ श्री गणेशाय नमः ॥</p>
@@ -470,7 +470,7 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&!song.paused){song.dataset.resume='1';song.pause()}else if(!document.hidden&&song.dataset.resume){song.dataset.resume='';song.play().catch(()=>{})}});
 
   /* ---------- videos: play only while on screen ---------- */
-  let opened=false;
+  let opened=false,started=false;   // opened = card tapped; started = story running (after the card film)
   const vids=[...document.querySelectorAll('.scene video')];
   vids.forEach(v=>{v.removeAttribute('autoplay');v.pause()});
   let stalled=false;
@@ -529,10 +529,10 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   function setPlaying(p){playing=p;$('ic-pause').hidden=!p;$('ic-play').hidden=p;$('pp').setAttribute('aria-label',p?'Pause':'Play');
     $('pflag').classList.toggle('on',!p&&opened);
     const v=vidOf(idx);if(v&&opened){if(p)kick(v);else{v.dataset.want='';v.pause()}}}
-  function goTo(i){if(!opened)return;if(i<0)i=0;if(i>=scenes.length)i=0;if(i===idx)return;navLock=performance.now();enter(i);hideHint()}
+  function goTo(i){if(!started)return;if(i<0)i=0;if(i>=scenes.length)i=0;if(i===idx)return;navLock=performance.now();enter(i);hideHint()}
   const next=()=>goTo(idx===scenes.length-1?0:idx+1), back=()=>{if(idx>0)goTo(idx-1)};
   function tick(now){const dt=Math.min(100,now-last);last=now;
-    if(opened&&playing&&!held&&!stalled&&!document.hidden){const d=durOf(idx);
+    if(started&&playing&&!held&&!stalled&&!document.hidden){const d=durOf(idx);
       if(d){elapsed=Math.min(d,elapsed+dt);if(elapsed>=d&&idx<scenes.length-1)goTo(idx+1)}}
     paint();requestAnimationFrame(tick)}
   requestAnimationFrame(t=>{last=t;tick(t)});
@@ -583,12 +583,19 @@ html[lang="hi"] .quiet{font-family:var(--f-deva);font-style:normal}
   function begin(){ // the story starts with the boat clip playing underneath the fading card
     document.body.classList.remove('locked');
     $('topbar').classList.remove('pre-open');$('controls').classList.remove('pre-open');
-    idx=-1;enter(0);setPlaying(!reduce);showHint();
+    started=true;idx=-1;enter(0);setPlaying(!reduce);showHint();
   }
   function leave(){if(leaving)return;leaving=true;clearTimeout(autoT);begin();
     $('intro').classList.add('gone');setTimeout(()=>{iv.pause();$('intro').remove()},1300)}
   // if the film can't play (blocked or stuck), show the opened card as a still instead
-  function fallback(){if(lit)return;film.classList.add('fallback');petals();light();clearTimeout(autoT);autoT=setTimeout(leave,7000)}
+  // the words only ever go on the opened card: if its still can't load either, skip straight to the story
+  let fellBack=false;
+  function fallback(){if(lit||fellBack)return;fellBack=true;iv.pause();clearTimeout(autoT);
+    const img=film.querySelector('.end');
+    const show=()=>{if(lit||leaving)return;film.classList.add('fallback');petals();light();clearTimeout(autoT);autoT=setTimeout(leave,7000)};
+    if(img.complete&&img.naturalWidth)return show();
+    img.addEventListener('load',show,{once:true});img.addEventListener('error',leave,{once:true});
+    autoT=setTimeout(()=>{if(!lit)leave()},3000)}
   iv.addEventListener('timeupdate',()=>{const t=iv.currentTime;if(t>=T_BURST)petals();if(t>=T_WORDS)light()});
   iv.addEventListener('ended',()=>{light();clearTimeout(autoT);autoT=setTimeout(leave,HOLD_AFTER_END)});
   function openCard(music){
